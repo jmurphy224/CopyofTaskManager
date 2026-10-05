@@ -1,0 +1,13 @@
+# Supabase CLI settings for local development (`supabase start`).
+project_id = "runsheet"
+
+[auth]
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173", "http://localhost:4173"]
+
+[auth.email]
+enable_signup = true
+
+[functions.sync-shows]
+# The function checks the caller itself (admin sign-in or the service key).
+verify_jwt = false

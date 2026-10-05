@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en"><head><style>
+    .sc-placeholder{background:color-mix(in srgb,currentColor 8%,transparent);
+      border:1px solid color-mix(in srgb,currentColor 50%,transparent);
+      border-radius:2px;box-sizing:border-box;overflow:hidden}
+    @keyframes sc-shine{0%{background-position:100% 50%}100%{background-position:0% 50%}}
+    html.sc-dc-streaming .sc-placeholder,
+    html.sc-dc-streaming .sc-interp.sc-missing{position:relative;
+      background:color-mix(in srgb,currentColor 5%,transparent);
+      border-color:transparent}
+    html.sc-dc-streaming .sc-placeholder::before,
+    html.sc-dc-streaming .sc-interp.sc-missing::before{content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(217,119,87,0) 25%,rgba(247,225,211,.95) 37%,rgba(217,119,87,0) 63%);
+      background-size:400% 100%;animation:sc-shine 1.4s ease infinite}
+    html.sc-dc-streaming .sc-placeholder:nth-child(n+9 of .sc-placeholder)::before,
+    html.sc-dc-streaming .sc-interp.sc-missing:nth-child(n+9 of .sc-interp.sc-missing)::before{animation:none;
+      background:color-mix(in srgb,currentColor 8%,transparent)}
+    .sc-placeholder-error{padding:4px 8px;font:11px/1.4 ui-monospace,monospace;
+      color:color-mix(in srgb,currentColor 70%,transparent);word-break:break-word}
+    .sc-interp.sc-missing{display:inline-block;width:2em;height:1em;overflow:hidden;
+      vertical-align:text-bottom;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;color:transparent;
+      user-select:none}
+    .sc-interp.sc-unresolved{font-family:ui-monospace,monospace;font-size:.85em;
+      color:color-mix(in srgb,currentColor 50%,transparent);
+      background:color-mix(in srgb,currentColor 10%,transparent);border-radius:3px;
+      padding:0 3px}
+    .sc-host.sc-has-error{position:relative}
+    .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
+      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      border-radius:4px;white-space:pre-wrap;pointer-events:none}
+    /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts — keep both
+       in sync until dc-runtime regains a build step. */
+    @media print {
+      @page { margin: 0.5cm; }
+      figure, table { break-inside: avoid; }
+      #dc-root, #dc-root > .sc-host { height: auto; }
+      *, *::before, *::after {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        animation-delay: -99s !important; animation-duration: .001s !important;
+        animation-iteration-count: 1 !important; animation-fill-mode: both !important;
+        animation-play-state: running !important; transition-duration: 0s !important;
+      }
+    }
+  </style>
+<meta charset="utf-8">
+<title>Runsheet — Roles and permissions</title>
+<style>x-dc{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" data-dc-tpl="1"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet" data-dc-tpl="2"><style data-dc-tpl="3">
+body{margin:0;font-family:'IBM Plex Sans',system-ui,sans-serif;background:#F4F2EE;color:#1C1B19}
+a{color:#2F4DB3}a:hover{color:#1F3585}
+button,input,select{font-family:inherit}
+</style></head>
+<body>
+<div id="dc-root"><div class="sc-host" data-sc-name="Roles"><div data-dc-tpl="4" style="width: 1280px; height: 900px; box-sizing: border-box; padding: 32px 40px; display: flex; flex-direction: column; gap: 24px; background: rgb(244, 242, 238); color: rgb(28, 27, 25); font-family: &quot;IBM Plex Sans&quot;, system-ui, sans-serif;">
+  <div data-dc-tpl="5" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+    <div data-dc-tpl="6" style="display: flex; flex-direction: column; gap: 6px;">
+      <a data-dc-tpl="7" href="Main.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; min-height: 32px;">
+        <svg data-dc-tpl="8" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-tpl="9" d="M15 18l-6-6 6-6"></path></svg>
+        Back to week view
+      </a>
+      <h1 data-dc-tpl="10" style="margin: 0px; font-family: &quot;Bricolage Grotesque&quot;, sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Roles &amp; permissions</h1>
+      <p data-dc-tpl="11" style="margin: 0px; font-size: 15px; color: rgb(87, 83, 75);">Only admins can see this page. Three roles plus view-only shop TVs, and one rule for closing tasks: the assignee, or any manager or admin.</p>
+    </div>
+    <button data-dc-tpl="12" type="button" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0px 18px; border: 0px; border-radius: 10px; background: rgb(47, 77, 179); color: rgb(255, 255, 255); font-size: 15px; font-weight: 600; cursor: pointer;">
+      <svg data-dc-tpl="13" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path data-dc-tpl="14" d="M12 5v14M5 12h14"></path></svg>
+      Invite person
+    </button>
+  </div>
+
+  <div data-dc-tpl="15" style="display: grid; grid-template-columns: minmax(0px, 1fr) 460px; gap: 24px;">
+    <section data-dc-tpl="16" style="padding: 8px 24px 16px; background: rgb(255, 255, 255); border: 1px solid rgb(224, 219, 210); border-radius: 16px;">
+      <table data-dc-tpl="17" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <caption data-dc-tpl="18" style="text-align: left; padding: 16px 0px 8px; font-size: 16px; font-weight: 600;">What each role can do</caption>
+        <thead data-dc-tpl="19">
+          <tr data-dc-tpl="20" style="text-align: left; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: rgb(87, 83, 75);">
+            <th data-dc-tpl="21" scope="col" style="padding: 10px 0px; font-weight: 600;">Permission</th>
+            <th data-dc-tpl="22" scope="col" style="padding: 10px 0px; font-weight: 600; width: 96px;">Admin</th>
+            <th data-dc-tpl="23" scope="col" style="padding: 10px 0px; font-weight: 600; width: 96px;">Manager</th>
+            <th data-dc-tpl="24" scope="col" style="padding: 10px 0px; font-weight: 600; width: 96px;">User</th>
+            <th data-dc-tpl="25" scope="col" style="padding: 10px 0px; font-weight: 600; width: 96px;">Shop TV</th>
+          </tr>
+        </thead>
+        <tbody data-dc-tpl="26">
+          <tr data-dc-tpl="27" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="28" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">See own assigned tasks</th><td data-dc-tpl="29" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="30" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="31" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="32" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="33" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="34" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">See their groups' tasks</th><td data-dc-tpl="35" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="36" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="37" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="38" style="color: rgb(138, 75, 15);">Its one group</td></tr>
+          <tr data-dc-tpl="39" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="40" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">See everyone's tasks</th><td data-dc-tpl="41" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="42" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="43" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="44" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="45" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="46" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">Create tasks</th><td data-dc-tpl="47" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="48" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="49" style="color: rgb(138, 75, 15);">For self only</td><td data-dc-tpl="50" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="51" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="52" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">Assign and reassign tasks</th><td data-dc-tpl="53" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="54" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="55" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="56" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="57" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="58" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">Mark a task complete</th><td data-dc-tpl="59" style="color: rgb(31, 90, 53); font-weight: 600;">Any task</td><td data-dc-tpl="60" style="color: rgb(31, 90, 53); font-weight: 600;">Any task</td><td data-dc-tpl="61" style="color: rgb(138, 75, 15);">If assignee</td><td data-dc-tpl="62" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="63" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="64" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">Edit or delete any task</th><td data-dc-tpl="65" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="66" style="color: rgb(138, 75, 15);">Their groups</td><td data-dc-tpl="67" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="68" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="69" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="70" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">Manage tags and groups</th><td data-dc-tpl="71" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="72" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="73" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="74" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="75" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="76" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">Connect and sync Google or Microsoft calendars</th><td data-dc-tpl="77" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="78" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="79" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="80" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="81" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="82" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">Assign calendar events to team members</th><td data-dc-tpl="83" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="84" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="85" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="86" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="87" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="88" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">See synced calendar events</th><td data-dc-tpl="89" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="90" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="91" style="color: rgb(61, 58, 52);">Only events assigned to them</td><td data-dc-tpl="92" style="color: rgb(61, 58, 52);">Only events assigned to it</td></tr>
+          <tr data-dc-tpl="93" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="94" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">Manage people and roles</th><td data-dc-tpl="95" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="96" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="97" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="98" style="color: rgb(107, 102, 92);">No</td></tr>
+          <tr data-dc-tpl="99" style="border-top: 1px solid rgb(236, 233, 227);"><th data-dc-tpl="100" scope="row" style="padding: 11px 0px; text-align: left; font-weight: 500;">Airtable connection settings</th><td data-dc-tpl="101" style="color: rgb(31, 90, 53); font-weight: 600;">Yes</td><td data-dc-tpl="102" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="103" style="color: rgb(107, 102, 92);">No</td><td data-dc-tpl="104" style="color: rgb(107, 102, 92);">No</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section data-dc-tpl="105" style="padding: 8px 24px 16px; background: rgb(255, 255, 255); border: 1px solid rgb(224, 219, 210); border-radius: 16px; align-self: start;">
+      <table data-dc-tpl="106" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <caption data-dc-tpl="107" style="text-align: left; padding: 16px 0px 8px; font-size: 16px; font-weight: 600;">People</caption>
+        <thead data-dc-tpl="108">
+          <tr data-dc-tpl="109" style="text-align: left; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: rgb(87, 83, 75);">
+            <th data-dc-tpl="110" scope="col" style="padding: 10px 0px; font-weight: 600;">Name</th>
+            <th data-dc-tpl="111" scope="col" style="padding: 10px 0px; font-weight: 600; width: 132px;">Role</th>
+          </tr>
+        </thead>
+        <tbody data-dc-tpl="112">
+          <tr data-dc-tpl="113" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="114" style="padding: 10px 0px;"><div data-dc-tpl="115" style="display: flex; align-items: center; gap: 10px;"><span data-dc-tpl="116" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: rgb(255, 255, 255); background: rgb(47, 77, 179);">JM</span><div data-dc-tpl="117" style="display: flex; flex-direction: column;"><span data-dc-tpl="118" style="font-weight: 600;">Joseph Murphy</span><span data-dc-tpl="119" style="font-size: 12px; color: rgb(107, 102, 92);">Production, Operations</span></div></div></td>
+            <td data-dc-tpl="120"><select data-dc-tpl="121" aria-label="Role for Joseph Murphy" style="height: 40px; width: 120px; padding: 0px 8px; border: 1px solid rgb(207, 202, 192); border-radius: 8px; background: rgb(255, 255, 255); font-size: 14px;"><option data-dc-tpl="122" selected="">Admin</option><option data-dc-tpl="123">Manager</option><option data-dc-tpl="124">User</option></select></td>
+          </tr>
+          <tr data-dc-tpl="125" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="126" style="padding: 10px 0px;"><div data-dc-tpl="127" style="display: flex; align-items: center; gap: 10px;"><span data-dc-tpl="128" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: rgb(255, 255, 255); background: rgb(138, 75, 15);">DR</span><div data-dc-tpl="129" style="display: flex; flex-direction: column;"><span data-dc-tpl="130" style="font-weight: 600;">Dana Reyes</span><span data-dc-tpl="131" style="font-size: 12px; color: rgb(107, 102, 92);">Production</span></div></div></td>
+            <td data-dc-tpl="132"><select data-dc-tpl="133" aria-label="Role for Dana Reyes" style="height: 40px; width: 120px; padding: 0px 8px; border: 1px solid rgb(207, 202, 192); border-radius: 8px; background: rgb(255, 255, 255); font-size: 14px;"><option data-dc-tpl="134" selected="">Manager</option><option data-dc-tpl="135">Admin</option><option data-dc-tpl="136">User</option></select></td>
+          </tr>
+          <tr data-dc-tpl="137" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="138" style="padding: 10px 0px;"><div data-dc-tpl="139" style="display: flex; align-items: center; gap: 10px;"><span data-dc-tpl="140" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: rgb(255, 255, 255); background: rgb(91, 62, 150);">PS</span><div data-dc-tpl="141" style="display: flex; flex-direction: column;"><span data-dc-tpl="142" style="font-weight: 600;">Priya Shah</span><span data-dc-tpl="143" style="font-size: 12px; color: rgb(107, 102, 92);">Production</span></div></div></td>
+            <td data-dc-tpl="144"><select data-dc-tpl="145" aria-label="Role for Priya Shah" style="height: 40px; width: 120px; padding: 0px 8px; border: 1px solid rgb(207, 202, 192); border-radius: 8px; background: rgb(255, 255, 255); font-size: 14px;"><option data-dc-tpl="146" selected="">User</option><option data-dc-tpl="147">Manager</option><option data-dc-tpl="148">Admin</option></select></td>
+          </tr>
+          <tr data-dc-tpl="149" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="150" style="padding: 10px 0px;"><div data-dc-tpl="151" style="display: flex; align-items: center; gap: 10px;"><span data-dc-tpl="152" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: rgb(255, 255, 255); background: rgb(35, 96, 58);">ML</span><div data-dc-tpl="153" style="display: flex; flex-direction: column;"><span data-dc-tpl="154" style="font-weight: 600;">Marcus Lee</span><span data-dc-tpl="155" style="font-size: 12px; color: rgb(107, 102, 92);">Creative</span></div></div></td>
+            <td data-dc-tpl="156"><select data-dc-tpl="157" aria-label="Role for Marcus Lee" style="height: 40px; width: 120px; padding: 0px 8px; border: 1px solid rgb(207, 202, 192); border-radius: 8px; background: rgb(255, 255, 255); font-size: 14px;"><option data-dc-tpl="158" selected="">User</option><option data-dc-tpl="159">Manager</option><option data-dc-tpl="160">Admin</option></select></td>
+          </tr>
+          <tr data-dc-tpl="161" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="162" style="padding: 10px 0px;"><div data-dc-tpl="163" style="display: flex; align-items: center; gap: 10px;"><span data-dc-tpl="164" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: rgb(255, 255, 255); background: rgb(122, 59, 94);">LP</span><div data-dc-tpl="165" style="display: flex; flex-direction: column;"><span data-dc-tpl="166" style="font-weight: 600;">Lena Park</span><span data-dc-tpl="167" style="font-size: 12px; color: rgb(107, 102, 92);">Creative, Operations</span></div></div></td>
+            <td data-dc-tpl="168"><select data-dc-tpl="169" aria-label="Role for Lena Park" style="height: 40px; width: 120px; padding: 0px 8px; border: 1px solid rgb(207, 202, 192); border-radius: 8px; background: rgb(255, 255, 255); font-size: 14px;"><option data-dc-tpl="170" selected="">User</option><option data-dc-tpl="171">Manager</option><option data-dc-tpl="172">Admin</option></select></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div></div></div></div>
+
+
+
+</body></html>

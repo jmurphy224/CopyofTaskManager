@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Runsheet Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #F4F2EE; --ink: #1C1B19; --muted: #57534B; --line: #E0DBD2; --card: #FFFFFF; --accent: #2F4DB3; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #151412; --ink: #F4F2EE; --muted: #B8B2A6; --line: #36332E; --card: #23211E; --accent: #9DB0EA; }
+  }
+  :root[data-theme="dark"] { --bg: #151412; --ink: #F4F2EE; --muted: #B8B2A6; --line: #36332E; --card: #23211E; --accent: #9DB0EA; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+  main { max-width: 1200px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; letter-spacing: -0.02em; margin: 0 0 8px; }
+  p { color: var(--muted); max-width: 760px; line-height: 1.5; }
+  a { color: var(--accent); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-top: 32px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+  .card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; border-bottom: 1px solid var(--line); display: block; }
+  .card div { padding: 16px; }
+  .card strong { display: block; font-size: 17px; }
+  .card span { color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Runsheet mockup</h1>
+  <p>
+    The original design for the Fogarty work task manager: five screens. These are static copies, so links between
+    screens work but buttons and checkboxes don't. For the working app built from this design, open the
+    <a href="../">demo app</a>.
+  </p>
+  <div class="grid">
+    <a class="card" href="pages/Main.html"><img src="screenshots/Main.png" alt="Week view screen"><div><strong>Week view</strong><span>Home screen: the week's tasks and calendar events, with filters and a role switcher.</span></div></a>
+    <a class="card" href="pages/TaskDetail.html"><img src="screenshots/TaskDetail.png" alt="Create or edit task screen"><div><strong>Create / edit task</strong><span>Title, assignee, group, deadline, tags, show number, calendar.</span></div></a>
+    <a class="card" href="pages/Calendars.html"><img src="screenshots/Calendars.png" alt="Calendar sync screen"><div><strong>Calendar sync</strong><span>Google and Microsoft calendars (managers and admins).</span></div></a>
+    <a class="card" href="pages/Roles.html"><img src="screenshots/Roles.png" alt="Roles and permissions screen"><div><strong>Roles &amp; permissions</strong><span>What each role can do, and the people list (admins).</span></div></a>
+    <a class="card" href="pages/TV.html"><img src="screenshots/TV.png" alt="Shop TV display screen"><div><strong>Shop TV display</strong><span>View-only screen for the Warehouse and Carpenters.</span></div></a>
+  </div>
+</main>
+</body>
+</html>
