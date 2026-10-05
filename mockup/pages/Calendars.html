@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en"><head><style>
+    .sc-placeholder{background:color-mix(in srgb,currentColor 8%,transparent);
+      border:1px solid color-mix(in srgb,currentColor 50%,transparent);
+      border-radius:2px;box-sizing:border-box;overflow:hidden}
+    @keyframes sc-shine{0%{background-position:100% 50%}100%{background-position:0% 50%}}
+    html.sc-dc-streaming .sc-placeholder,
+    html.sc-dc-streaming .sc-interp.sc-missing{position:relative;
+      background:color-mix(in srgb,currentColor 5%,transparent);
+      border-color:transparent}
+    html.sc-dc-streaming .sc-placeholder::before,
+    html.sc-dc-streaming .sc-interp.sc-missing::before{content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(217,119,87,0) 25%,rgba(247,225,211,.95) 37%,rgba(217,119,87,0) 63%);
+      background-size:400% 100%;animation:sc-shine 1.4s ease infinite}
+    html.sc-dc-streaming .sc-placeholder:nth-child(n+9 of .sc-placeholder)::before,
+    html.sc-dc-streaming .sc-interp.sc-missing:nth-child(n+9 of .sc-interp.sc-missing)::before{animation:none;
+      background:color-mix(in srgb,currentColor 8%,transparent)}
+    .sc-placeholder-error{padding:4px 8px;font:11px/1.4 ui-monospace,monospace;
+      color:color-mix(in srgb,currentColor 70%,transparent);word-break:break-word}
+    .sc-interp.sc-missing{display:inline-block;width:2em;height:1em;overflow:hidden;
+      vertical-align:text-bottom;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;color:transparent;
+      user-select:none}
+    .sc-interp.sc-unresolved{font-family:ui-monospace,monospace;font-size:.85em;
+      color:color-mix(in srgb,currentColor 50%,transparent);
+      background:color-mix(in srgb,currentColor 10%,transparent);border-radius:3px;
+      padding:0 3px}
+    .sc-host.sc-has-error{position:relative}
+    .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
+      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      border-radius:4px;white-space:pre-wrap;pointer-events:none}
+    /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts — keep both
+       in sync until dc-runtime regains a build step. */
+    @media print {
+      @page { margin: 0.5cm; }
+      figure, table { break-inside: avoid; }
+      #dc-root, #dc-root > .sc-host { height: auto; }
+      *, *::before, *::after {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        animation-delay: -99s !important; animation-duration: .001s !important;
+        animation-iteration-count: 1 !important; animation-fill-mode: both !important;
+        animation-play-state: running !important; transition-duration: 0s !important;
+      }
+    }
+  </style>
+<meta charset="utf-8">
+<title>Runsheet — Calendar sync</title>
+<style>x-dc{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" data-dc-tpl="1"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet" data-dc-tpl="2"><style data-dc-tpl="3">
+body{margin:0;font-family:'IBM Plex Sans',system-ui,sans-serif;background:#F4F2EE;color:#1C1B19}
+a{color:#2F4DB3}a:hover{color:#1F3585}
+button,input,select{font-family:inherit}
+</style></head>
+<body>
+<div id="dc-root"><div class="sc-host" data-sc-name="Calendars"><div data-dc-tpl="4" style="width: 1280px; height: 900px; box-sizing: border-box; padding: 32px 40px; display: flex; flex-direction: column; gap: 24px; background: rgb(244, 242, 238); color: rgb(28, 27, 25); font-family: &quot;IBM Plex Sans&quot;, system-ui, sans-serif;">
+  <div data-dc-tpl="5" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+    <div data-dc-tpl="6" style="display: flex; flex-direction: column; gap: 6px;">
+      <a data-dc-tpl="7" href="Main.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; min-height: 32px;">
+        <svg data-dc-tpl="8" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-tpl="9" d="M15 18l-6-6 6-6"></path></svg>
+        Back to week view
+      </a>
+      <h1 data-dc-tpl="10" style="margin: 0px; font-family: &quot;Bricolage Grotesque&quot;, sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Calendar sync</h1>
+      <p data-dc-tpl="11" style="margin: 0px; font-size: 15px; color: rgb(87, 83, 75);">Managers and admins only. Connect team members' Google or Microsoft calendars and pick which ones show up next to tasks.</p>
+    </div>
+    <div data-dc-tpl="12" style="display: flex; gap: 12px;">
+      <button data-dc-tpl="13" type="button" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0px 18px; border: 0px; border-radius: 10px; background: rgb(47, 77, 179); color: rgb(255, 255, 255); font-size: 15px; font-weight: 600; cursor: pointer;">
+        <svg data-dc-tpl="14" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path data-dc-tpl="15" d="M12 5v14M5 12h14"></path></svg>
+        Connect Google account
+      </button>
+      <button data-dc-tpl="16" type="button" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0px 18px; border: 1px solid rgb(47, 77, 179); border-radius: 10px; background: rgb(255, 255, 255); color: rgb(47, 77, 179); font-size: 15px; font-weight: 600; cursor: pointer;">
+        <svg data-dc-tpl="17" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path data-dc-tpl="18" d="M12 5v14M5 12h14"></path></svg>
+        Connect Microsoft account
+      </button>
+    </div>
+  </div>
+
+  <div data-dc-tpl="19" style="display: grid; grid-template-columns: repeat(2, minmax(0px, 1fr)); gap: 24px;">
+    <section data-dc-tpl="20" style="padding: 24px; background: rgb(255, 255, 255); border: 1px solid rgb(224, 219, 210); border-radius: 16px; display: flex; flex-direction: column; gap: 16px;">
+      <div data-dc-tpl="21" style="display: flex; align-items: center; gap: 12px;">
+        <span data-dc-tpl="22" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgb(225, 231, 250); color: rgb(36, 60, 143);">
+          <svg data-dc-tpl="23" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect data-dc-tpl="24" x="3" y="5" width="18" height="16" rx="2"></rect><path data-dc-tpl="25" d="M16 3v4M8 3v4M3 10h18"></path></svg>
+        </span>
+        <div data-dc-tpl="26" style="flex-grow: 1; display: flex; flex-direction: column;">
+          <span data-dc-tpl="27" style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgb(87, 83, 75);">Google</span>
+          <span data-dc-tpl="28" style="font-size: 16px; font-weight: 600;">[you@company.com]</span>
+          <span data-dc-tpl="29" style="font-size: 13px; color: rgb(31, 90, 53);">Connected · last sync [time]</span>
+        </div>
+        <button data-dc-tpl="30" type="button" style="height: 36px; padding: 0px 12px; border: 1px solid rgb(207, 202, 192); background: rgb(255, 255, 255); border-radius: 8px; font-size: 13px; font-weight: 600; color: rgb(61, 58, 52); cursor: pointer;">Disconnect</button>
+      </div>
+      <table data-dc-tpl="31" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <thead data-dc-tpl="32">
+          <tr data-dc-tpl="33" style="text-align: left; color: rgb(87, 83, 75); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;">
+            <th data-dc-tpl="34" style="padding: 8px 0px; font-weight: 600;">Calendar</th>
+            <th data-dc-tpl="35" style="padding: 8px 0px; font-weight: 600; width: 110px;">Show events</th>
+            <th data-dc-tpl="36" style="padding: 8px 0px; font-weight: 600; width: 120px;">Send deadlines</th>
+          </tr>
+        </thead>
+        <tbody data-dc-tpl="37">
+          <tr data-dc-tpl="38" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="39" style="padding: 10px 0px;"><span data-dc-tpl="40" style="display: inline-flex; align-items: center; gap: 10px;"><span data-dc-tpl="41" style="width: 12px; height: 12px; border-radius: 3px; background: rgb(47, 77, 179);"></span>My work calendar</span></td>
+            <td data-dc-tpl="42"><input data-dc-tpl="43" type="checkbox" aria-label="Show My work calendar events" checked="" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+            <td data-dc-tpl="44"><input data-dc-tpl="45" type="radio" name="push" aria-label="Send deadlines to My work calendar" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+          </tr>
+          <tr data-dc-tpl="46" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="47" style="padding: 10px 0px;"><span data-dc-tpl="48" style="display: inline-flex; align-items: center; gap: 10px;"><span data-dc-tpl="49" style="width: 12px; height: 12px; border-radius: 3px; background: rgb(194, 86, 15);"></span>Production schedule <span data-dc-tpl="50" style="font-size: 12px; color: rgb(107, 102, 92);">shared</span></span></td>
+            <td data-dc-tpl="51"><input data-dc-tpl="52" type="checkbox" aria-label="Show Production schedule events" checked="" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+            <td data-dc-tpl="53"><input data-dc-tpl="54" type="radio" name="push" aria-label="Send deadlines to Production schedule" checked="" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+          </tr>
+          <tr data-dc-tpl="55" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="56" style="padding: 10px 0px;"><span data-dc-tpl="57" style="display: inline-flex; align-items: center; gap: 10px;"><span data-dc-tpl="58" style="width: 12px; height: 12px; border-radius: 3px; background: rgb(35, 96, 58);"></span>Venue holds <span data-dc-tpl="59" style="font-size: 12px; color: rgb(107, 102, 92);">shared</span></span></td>
+            <td data-dc-tpl="60"><input data-dc-tpl="61" type="checkbox" aria-label="Show Venue holds events" checked="" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+            <td data-dc-tpl="62"><input data-dc-tpl="63" type="radio" name="push" aria-label="Send deadlines to Venue holds" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section data-dc-tpl="64" style="padding: 24px; background: rgb(255, 255, 255); border: 1px solid rgb(224, 219, 210); border-radius: 16px; display: flex; flex-direction: column; gap: 16px;">
+      <div data-dc-tpl="65" style="display: flex; align-items: center; gap: 12px;">
+        <span data-dc-tpl="66" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgb(236, 227, 248); color: rgb(82, 56, 135);">
+          <svg data-dc-tpl="67" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect data-dc-tpl="68" x="3" y="5" width="18" height="16" rx="2"></rect><path data-dc-tpl="69" d="M16 3v4M8 3v4M3 10h18"></path></svg>
+        </span>
+        <div data-dc-tpl="70" style="flex-grow: 1; display: flex; flex-direction: column;">
+          <span data-dc-tpl="71" style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgb(87, 83, 75);">Microsoft 365 (Outlook)</span>
+          <span data-dc-tpl="72" style="font-size: 16px; font-weight: 600;">[team@company.com]</span>
+          <span data-dc-tpl="73" style="font-size: 13px; color: rgb(31, 90, 53);">Connected · last sync [time]</span>
+        </div>
+        <button data-dc-tpl="74" type="button" style="height: 36px; padding: 0px 12px; border: 1px solid rgb(207, 202, 192); background: rgb(255, 255, 255); border-radius: 8px; font-size: 13px; font-weight: 600; color: rgb(61, 58, 52); cursor: pointer;">Disconnect</button>
+      </div>
+      <table data-dc-tpl="75" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <thead data-dc-tpl="76">
+          <tr data-dc-tpl="77" style="text-align: left; color: rgb(87, 83, 75); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;">
+            <th data-dc-tpl="78" style="padding: 8px 0px; font-weight: 600;">Calendar</th>
+            <th data-dc-tpl="79" style="padding: 8px 0px; font-weight: 600; width: 110px;">Show events</th>
+            <th data-dc-tpl="80" style="padding: 8px 0px; font-weight: 600; width: 120px;">Send deadlines</th>
+          </tr>
+        </thead>
+        <tbody data-dc-tpl="81">
+          <tr data-dc-tpl="82" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="83" style="padding: 10px 0px;"><span data-dc-tpl="84" style="display: inline-flex; align-items: center; gap: 10px;"><span data-dc-tpl="85" style="width: 12px; height: 12px; border-radius: 3px; background: rgb(122, 116, 104);"></span>Team PTO</span></td>
+            <td data-dc-tpl="86"><input data-dc-tpl="87" type="checkbox" aria-label="Show Team PTO events" checked="" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+            <td data-dc-tpl="88"><input data-dc-tpl="89" type="radio" name="push" aria-label="Send deadlines to Team PTO" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+          </tr>
+          <tr data-dc-tpl="90" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="91" style="padding: 10px 0px;"><span data-dc-tpl="92" style="display: inline-flex; align-items: center; gap: 10px;"><span data-dc-tpl="93" style="width: 12px; height: 12px; border-radius: 3px; background: rgb(91, 62, 150);"></span>Load-in / load-out</span></td>
+            <td data-dc-tpl="94"><input data-dc-tpl="95" type="checkbox" aria-label="Show Load-in / load-out events" checked="" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+            <td data-dc-tpl="96"><input data-dc-tpl="97" type="radio" name="push" aria-label="Send deadlines to Load-in / load-out" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+          </tr>
+          <tr data-dc-tpl="98" style="border-top: 1px solid rgb(236, 233, 227);">
+            <td data-dc-tpl="99" style="padding: 10px 0px;"><span data-dc-tpl="100" style="display: inline-flex; align-items: center; gap: 10px;"><span data-dc-tpl="101" style="width: 12px; height: 12px; border-radius: 3px; background: rgb(168, 162, 152);"></span>Holidays</span></td>
+            <td data-dc-tpl="102"><input data-dc-tpl="103" type="checkbox" aria-label="Show Holidays events" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+            <td data-dc-tpl="104"><input data-dc-tpl="105" type="radio" name="push" aria-label="Send deadlines to Holidays" style="width: 20px; height: 20px; accent-color: rgb(47, 77, 179);"></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <section data-dc-tpl="106" style="padding: 24px; background: rgb(255, 255, 255); border: 1px solid rgb(224, 219, 210); border-radius: 16px; display: grid; grid-template-columns: repeat(3, minmax(0px, 1fr)); gap: 28px;">
+    <div data-dc-tpl="107" style="display: flex; flex-direction: column; gap: 8px;">
+      <h2 data-dc-tpl="108" style="margin: 0px; font-size: 15px; font-weight: 600;">How sync works</h2>
+      <p data-dc-tpl="109" style="margin: 0px; font-size: 14px; line-height: 1.55; color: rgb(61, 58, 52);">Events show read-only in the week view, next to that day's tasks. If you choose a calendar under “Send deadlines”, each task deadline also lands there as an event.</p>
+    </div>
+    <div data-dc-tpl="110" style="display: flex; flex-direction: column; gap: 8px;">
+      <h2 data-dc-tpl="111" style="margin: 0px; font-size: 15px; font-weight: 600;">Who connects what</h2>
+      <p data-dc-tpl="112" style="margin: 0px; font-size: 14px; line-height: 1.55; color: rgb(61, 58, 52);">Only managers and admins connect and sync calendars, including individual team members' calendars. Regular users can't connect or change anything, and they only see an event after a manager or admin assigns it to them in the week view.</p>
+    </div>
+    <div data-dc-tpl="113" style="display: flex; flex-direction: column; gap: 8px;">
+      <h2 data-dc-tpl="114" style="margin: 0px; font-size: 15px; font-weight: 600;">Backend (later)</h2>
+      <p data-dc-tpl="115" style="margin: 0px; font-size: 14px; line-height: 1.55; color: rgb(61, 58, 52);">Google and Microsoft sign-in (OAuth), background sync on a schedule and a change webhook. Nothing on this screen is wired up yet.</p>
+    </div>
+  </section></div></div></div>
+
+
+
+</body></html>

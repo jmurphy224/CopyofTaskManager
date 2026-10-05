@@ -1,0 +1,50 @@
+# Publishes the demo app and the mockup to GitHub Pages:
+#   https://<owner>.github.io/<repo>/          the app in demo mode (sample data)
+#   https://<owner>.github.io/<repo>/mockup/   the original design mockup
+# One-time setup: repo Settings -> Pages -> Source: "GitHub Actions".
+# Pages on a private repository needs a paid GitHub plan (Pro, Team or Enterprise).
+name: Publish demo and mockup
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # No Supabase settings here, so the published build always runs in demo mode.
+      - run: npm run build
+      - name: Add the mockup
+        run: |
+          mkdir -p dist/mockup
+          cp -r mockup/index.html mockup/pages mockup/screenshots dist/mockup/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

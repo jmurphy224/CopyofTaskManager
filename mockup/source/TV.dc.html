@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Runsheet — Shop TV display</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'IBM Plex Sans',system-ui,sans-serif;background:#151412;color:#F4F2EE}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1920px; height: 1080px; box-sizing: border-box; padding: 44px 64px 36px; display: flex; flex-direction: column; gap: 28px; background: #151412; color: #F4F2EE; font-family: 'IBM Plex Sans', system-ui, sans-serif; overflow: hidden">
+  <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="display: inline-flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #B8B2A6">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        Shop display · view only
+      </span>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 104px; font-weight: 700; line-height: 1; letter-spacing: -0.02em">{{groupName}}</h1>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 14px">
+      <div role="group" aria-label="Preview display" style="display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 12px; background: #2B2925">
+        <span style="padding: 0 12px; font-size: 15px; color: #B8B2A6">Preview display</span>
+        <sc-for list="{{displays}}" as="d" hint-placeholder-count="2">
+          <button type="button" aria-pressed="{{d.pressed}}" onClick="{{d.pick}}" style="height: 44px; padding: 0 18px; border: 0; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; background: {{d.bg}}; color: {{d.fg}}">{{d.label}}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 24px">
+        <span style="font-size: 40px; font-weight: 500">{{dateLine}}</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 40px; color: #B8B2A6">{{clock}}</span>
+      </div>
+    </div>
+  </header>
+
+  <div style="flex-grow: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 48px">
+    <section aria-label="Today" style="display: flex; flex-direction: column; gap: 16px; min-width: 0">
+      <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap">
+        <h2 style="margin: 0; font-size: 30px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B8B2A6">Today</h2>
+        <sc-for list="{{todayEvents}}" as="ev" hint-placeholder-count="1">
+          <span style="display: inline-flex; align-items: center; gap: 12px; padding: 8px 16px; border-radius: 10px; background: #2B2925; font-size: 26px">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B8B2A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Calendar event"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 24px; color: #B8B2A6">{{ev.time}}</span>
+            {{ev.title}}
+          </span>
+        </sc-for>
+      </div>
+      <sc-for list="{{today}}" as="t" hint-placeholder-count="4">
+        <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) auto; align-items: center; gap: 28px; padding: 20px 28px; border: 2px solid {{t.border}}; border-radius: 18px; background: {{t.bg}}">
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 36px; color: {{t.timeColor}}">{{t.time}}</span>
+            <span style="font-size: 20px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.statusColor}}">{{t.status}}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
+            <span style="font-size: 40px; font-weight: 600; line-height: 1.12; color: {{t.titleColor}}; text-decoration: {{t.deco}}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{t.title}}</span>
+            <span style="font-size: 24px; color: #B8B2A6">{{t.meta}}</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 14px">
+            <span style="font-size: 30px; font-weight: 500">{{t.who}}</span>
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 50%; font-size: 24px; font-weight: 600; color: #151412; background: {{t.avatarBg}}">{{t.initials}}</span>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <section aria-label="Rest of this week" style="display: flex; flex-direction: column; gap: 16px; min-width: 0">
+      <h2 style="margin: 0; padding: 6px 0; font-size: 30px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B8B2A6">Rest of this week</h2>
+      <sc-for list="{{upcoming}}" as="day" hint-placeholder-count="4">
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; padding: 16px 0; border-top: 2px solid #36332E">
+          <span style="font-size: 30px; font-weight: 600">{{day.label}}</span>
+          <div style="display: flex; flex-direction: column; gap: 12px; min-width: 0">
+            <sc-for list="{{day.items}}" as="it" hint-placeholder-count="2">
+              <div style="display: flex; align-items: baseline; gap: 16px; min-width: 0; font-size: 28px">
+                <span style="flex-shrink: 0; width: 132px; font-family: 'IBM Plex Mono', monospace; font-size: 24px; color: #B8B2A6">{{it.time}}</span>
+                <span style="min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: {{it.color}}">{{it.title}}</span>
+                <span style="flex-shrink: 0; margin-left: auto; font-size: 24px; color: #B8B2A6">{{it.who}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+  </div>
+
+  <footer style="display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-top: 18px; border-top: 2px solid #36332E; font-size: 24px; color: #B8B2A6">
+    <div style="display: flex; align-items: center; gap: 36px">
+      <span><strong style="color: #F4F2EE">{{openCount}}</strong> open today</span>
+      <span><strong style="color: #8FD3A4">{{doneCount}}</strong> done</span>
+      <span style="color: #FFA467"><strong>{{overdueCount}}</strong> overdue</span>
+    </div>
+    <span>Nothing can be changed from this screen. Tasks are checked off by the assignee on their own login.</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+  seed() {
+    if (this._seed) return this._seed;
+    const people = {
+      tom:   { name: 'Tom B.',   initials: 'TB', color: '#9DB0EA' },
+      rosa:  { name: 'Rosa M.',  initials: 'RM', color: '#F2B88F' },
+      andre: { name: 'Andre K.', initials: 'AK', color: '#8FD3A4' },
+      sam:   { name: 'Sam W.',   initials: 'SW', color: '#C9B3EE' },
+      nia:   { name: 'Nia O.',   initials: 'NO', color: '#F2B88F' },
+      luis:  { name: 'Luis G.',  initials: 'LG', color: '#9DB0EA' }
+    };
+    const groups = {
+      warehouse: {
+        name: 'Warehouse',
+        tasks: [
+          { date: '2026-09-29', time: '07:30', title: 'Stage truss and decking', who: 'andre', show: '2417', done: true },
+          { date: '2026-09-29', time: '10:00', title: 'Count and tag cable trunks', who: 'rosa', show: '2417', done: false },
+          { date: '2026-09-29', time: '14:00', title: 'Load truck 1', who: 'tom', show: '2417', done: false },
+          { date: '2026-09-29', time: '16:30', title: 'Fuel and inspect forklift', who: 'rosa', show: null, done: false },
+          { date: '2026-09-30', time: '13:00', title: 'Receive rental lighting delivery', who: 'andre', show: '2417', done: false },
+          { date: '2026-10-01', time: '15:00', title: 'Restock expendables', who: 'tom', show: null, done: false },
+          { date: '2026-10-02', time: '19:00', title: 'Unload truck 1 return', who: 'tom', show: '2417', done: false },
+          { date: '2026-10-03', time: '10:00', title: 'Returns check-in and damage report', who: 'rosa', show: '2417', done: false }
+        ],
+        events: [
+          { date: '2026-09-29', time: '13:00', title: 'Vendor drop-off — dock 2' },
+          { date: '2026-09-30', time: '08:00', title: 'Pick up tractor and trailer' },
+          { date: '2026-10-01', time: '07:00', title: 'Load-in — Show 2417' }
+        ]
+      },
+      carpenters: {
+        name: 'Carpenters',
+        tasks: [
+          { date: '2026-09-29', time: '08:00', title: 'Cut platform legs', who: 'sam', show: '2417', done: true },
+          { date: '2026-09-29', time: '11:00', title: 'Build stage facing frames', who: 'nia', show: '2417', done: false },
+          { date: '2026-09-29', time: '15:00', title: 'Paint and seal stair units', who: 'sam', show: '2417', done: false },
+          { date: '2026-09-29', time: '16:00', title: 'Hardware check on rolling risers', who: 'luis', show: null, done: false },
+          { date: '2026-09-30', time: '09:00', title: 'Assemble podium', who: 'nia', show: '2421', done: false },
+          { date: '2026-10-01', time: '10:00', title: 'Pack touch-up kit for load-in', who: 'luis', show: '2417', done: false },
+          { date: '2026-10-02', time: '13:00', title: 'Start scenic flats', who: 'sam', show: '2421', done: false }
+        ],
+        events: [
+          { date: '2026-09-30', time: '14:00', title: 'Lumber delivery' },
+          { date: '2026-10-01', time: '07:00', title: 'Load-in — Show 2417' }
+        ]
+      }
+    };
+    this._seed = { people, groups };
+    return this._seed;
+  }
+
+  now() { return new Date(2026, 8, 29, 12, 0); }
+  ymd(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  fmtTime(t) { const p = t.split(':').map(Number); const h = p[0] % 12 || 12; return h + ':' + String(p[1]).padStart(2, '0') + (p[0] >= 12 ? ' PM' : ' AM'); }
+
+  renderVals() {
+    const S = this.seed();
+    const s = this.state || {};
+    const NOW = this.now();
+    const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const gid = s.group || 'warehouse';
+    const G = S.groups[gid];
+    const todayKey = this.ymd(NOW);
+    const nowHM = String(NOW.getHours()).padStart(2, '0') + ':' + String(NOW.getMinutes()).padStart(2, '0');
+
+    let openCount = 0, doneCount = 0, overdueCount = 0;
+    const today = G.tasks.filter((t) => t.date === todayKey).sort((a, b) => a.time.localeCompare(b.time)).map((t) => {
+      const overdue = !t.done && t.time < nowHM;
+      if (t.done) doneCount++; else openCount++;
+      if (overdue) overdueCount++;
+      const p = S.people[t.who];
+      return {
+        time: this.fmtTime(t.time), title: t.title, who: p.name, initials: p.initials, avatarBg: p.color,
+        meta: t.show ? 'Show ' + t.show : 'Shop task',
+        status: t.done ? 'Done' : overdue ? 'Overdue' : 'Due today',
+        statusColor: t.done ? '#8FD3A4' : overdue ? '#FFA467' : '#9DB0EA',
+        timeColor: t.done ? '#B8B2A6' : '#F4F2EE',
+        titleColor: t.done ? '#B8B2A6' : '#F4F2EE', deco: t.done ? 'line-through' : 'none',
+        bg: t.done ? '#1C1A18' : overdue ? '#33211A' : '#23211E',
+        border: t.done ? '#2B2925' : overdue ? '#FFA467' : '#36332E'
+      };
+    });
+    const todayEvents = G.events.filter((e) => e.date === todayKey).map((e) => ({ time: this.fmtTime(e.time), title: e.title }));
+
+    const upcoming = [];
+    for (let i = 1; i <= 5; i++) {
+      const d = new Date(NOW.getFullYear(), NOW.getMonth(), NOW.getDate() + i);
+      const key = this.ymd(d);
+      const items = G.events.filter((e) => e.date === key).map((e) => ({ sort: e.time, time: this.fmtTime(e.time), title: e.title, who: 'Calendar', color: '#9DB0EA' }))
+        .concat(G.tasks.filter((t) => t.date === key).map((t) => ({ sort: t.time, time: this.fmtTime(t.time), title: t.title + (t.show ? ' · Show ' + t.show : ''), who: S.people[t.who].name, color: '#F4F2EE' })))
+        .sort((a, b) => a.sort.localeCompare(b.sort));
+      if (items.length) upcoming.push({ label: SHORT[d.getDay()] + ' ' + d.getDate(), items });
+    }
+
+    const displays = Object.keys(S.groups).map((id) => ({
+      label: S.groups[id].name, pressed: id === gid ? 'true' : 'false',
+      bg: id === gid ? '#F4F2EE' : 'transparent', fg: id === gid ? '#151412' : '#D9D4CA',
+      pick: () => this.setState({ group: id })
+    }));
+
+    return {
+      groupName: G.name, displays,
+      dateLine: DAYS[NOW.getDay()] + ', ' + MONTHS[NOW.getMonth()] + ' ' + NOW.getDate(),
+      clock: this.fmtTime(nowHM),
+      today, todayEvents, upcoming, openCount, doneCount, overdueCount
+    };
+  }
+}
+</script>
+</body>
+</html>

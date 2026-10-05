@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Runsheet — Week view</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'IBM Plex Sans',system-ui,sans-serif;background:#F4F2EE;color:#1C1B19}
+a{color:#2F4DB3}a:hover{color:#1F3585}
+button,input,select{font-family:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1024px; display: flex; flex-direction: column; background: #F4F2EE; color: #1C1B19; font-family: 'IBM Plex Sans', system-ui, sans-serif; overflow: hidden">
+
+  <header style="height: 64px; flex-shrink: 0; display: flex; align-items: center; gap: 24px; padding: 0 24px; background: #1C1B19; color: #F4F2EE">
+    <div style="display: flex; align-items: center; gap: 10px; width: 224px">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F4F2EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M7 9h10M7 13h6M7 17h3"></path></svg>
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.02em">Runsheet</span>
+    </div>
+    <div style="flex-grow: 1; max-width: 420px; position: relative">
+      <label for="q" class="sr">Search tasks</label>
+      <input id="q" type="search" placeholder="Search tasks, show numbers, tags" style="width: 100%; box-sizing: border-box; height: 40px; border-radius: 8px; border: 1px solid #45423C; background: #2A2925; color: #F4F2EE; padding: 0 14px; font-size: 14px">
+    </div>
+    <div style="flex-grow: 1"></div>
+    <div style="display: flex; align-items: center; gap: 10px">
+      <span style="font-size: 13px; color: #CFCAC0">Preview as</span>
+      <div style="display: flex; gap: 4px; padding: 4px; border-radius: 10px; background: #2A2925">
+        <sc-for list="{{roles}}" as="r" hint-placeholder-count="3">
+          <button type="button" aria-pressed="{{r.pressed}}" onClick="{{r.pick}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; background: {{r.bg}}; color: {{r.fg}}">{{r.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; padding-left: 16px; border-left: 1px solid #45423C">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; font-size: 13px; font-weight: 600; color: #FFFFFF; background: {{viewerColor}}">{{viewerInitials}}</span>
+      <div style="display: flex; flex-direction: column; line-height: 1.2">
+        <span style="font-size: 14px; font-weight: 600">{{viewerName}}</span>
+        <span style="font-size: 12px; color: #CFCAC0">{{viewerRole}}</span>
+      </div>
+    </div>
+  </header>
+
+  <div style="flex-grow: 1; display: flex; min-height: 0">
+
+    <aside style="width: 272px; flex-shrink: 0; box-sizing: border-box; padding: 20px 20px 28px; background: #ECE9E3; border-right: 1px solid #DDD8CF; display: flex; flex-direction: column; gap: 28px; overflow-y: auto">
+      <a href="TaskDetail.dc.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; border-radius: 10px; background: #2F4DB3; color: #FFFFFF; font-weight: 600; font-size: 15px; text-decoration: none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+        New task
+      </a>
+
+      <section style="display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; align-items: center; justify-content: space-between">
+          <h2 style="margin: 0; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #57534B">Calendars</h2>
+          <sc-if value="{{canSeeAll}}" hint-placeholder-val="{{ true }}">
+            <button type="button" aria-label="Sync calendars now" style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: 0; background: transparent; color: #57534B; border-radius: 6px; cursor: pointer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.5 6.2M3 12A9 9 0 0 1 18.5 5.8"></path><path d="M21 4v5h-5M3 20v-5h5"></path></svg>
+            </button>
+          </sc-if>
+        </div>
+        <sc-if value="{{canSeeAll}}" hint-placeholder-val="{{ true }}">
+        <sc-for list="{{accounts}}" as="acc" hint-placeholder-count="2">
+          <div style="display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 12px; color: #6B665C">{{acc.email}}</span>
+            <sc-for list="{{acc.cals}}" as="c" hint-placeholder-count="3">
+              <label for="{{c.cid}}" style="display: flex; align-items: center; gap: 10px; min-height: 36px; font-size: 14px; cursor: pointer">
+                <input id="{{c.cid}}" type="checkbox" checked="{{c.on}}" onChange="{{c.toggle}}" style="width: 18px; height: 18px; margin: 0; accent-color: {{c.color}}">
+                <span style="width: 10px; height: 10px; border-radius: 3px; background: {{c.color}}"></span>
+                <span>{{c.name}}</span>
+              </label>
+            </sc-for>
+          </div>
+        </sc-for>
+        </sc-if>
+        <sc-if value="{{canSeeAll}}" hint-placeholder-val="{{ true }}">
+          <p style="margin: 0; font-size: 13px; line-height: 1.45; color: #6B665C">Team members only see an event once you assign it to them in the week view.</p>
+          <a href="Calendars.dc.html" style="font-size: 14px; font-weight: 500">Manage calendar sync</a>
+        </sc-if>
+        <sc-if value="{{isUser}}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 0; font-size: 13px; line-height: 1.45; color: #6B665C">You only see calendar events a manager has assigned to you.</p>
+        </sc-if>
+      </section>
+
+      <section style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; align-items: center; justify-content: space-between; min-height: 32px">
+          <h2 style="margin: 0; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #57534B">Tags</h2>
+          <sc-if value="{{hasTagFilter}}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{clearTags}}" style="border: 0; background: transparent; color: #2F4DB3; font-size: 13px; font-weight: 600; cursor: pointer; padding: 6px">Clear</button>
+          </sc-if>
+        </div>
+        <sc-for list="{{tagList}}" as="g" hint-placeholder-count="5">
+          <label for="{{g.cid}}" style="display: flex; align-items: center; gap: 10px; min-height: 36px; font-size: 14px; cursor: pointer">
+            <input id="{{g.cid}}" type="checkbox" checked="{{g.on}}" onChange="{{g.toggle}}" style="width: 18px; height: 18px; margin: 0; accent-color: #2F4DB3">
+            <span style="display: inline-flex; padding: 3px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; background: {{g.bg}}; color: {{g.fg}}">{{g.name}}</span>
+          </label>
+        </sc-for>
+      </section>
+
+      <sc-if value="{{isAdmin}}" hint-placeholder-val="{{ true }}">
+        <section style="display: flex; flex-direction: column; gap: 8px; padding-top: 20px; border-top: 1px solid #DDD8CF">
+          <h2 style="margin: 0; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #57534B">Admin</h2>
+          <a href="Roles.dc.html" style="display: flex; align-items: center; min-height: 36px; font-size: 14px; font-weight: 500">Roles &amp; permissions</a>
+          <div style="display: flex; flex-direction: column; gap: 2px; font-size: 14px; color: #57534B">
+            <span>Airtable show numbers</span>
+            <span style="font-size: 12px; color: #6B665C">Connection planned for backend phase</span>
+          </div>
+        </section>
+      </sc-if>
+    </aside>
+
+    <main style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 20px 32px 12px; flex-wrap: wrap">
+        <button type="button" aria-label="{{prevLabel}}" onClick="{{prevWeek}}" style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #D5D0C6; background: #FFFFFF; border-radius: 10px; cursor: pointer; color: #1C1B19">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+        </button>
+        <button type="button" aria-label="{{nextLabel}}" onClick="{{nextWeek}}" style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #D5D0C6; background: #FFFFFF; border-radius: 10px; cursor: pointer; color: #1C1B19">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <div style="display: flex; flex-direction: column; padding: 0 8px">
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B665C">{{weekTag}}</span>
+          <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; font-weight: 700; letter-spacing: -0.02em">{{weekTitle}}</h1>
+        </div>
+        <button type="button" onClick="{{thisWeek}}" style="height: 44px; padding: 0 16px; border: 1px solid #D5D0C6; background: #FFFFFF; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; color: #1C1B19">This week</button>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #57534B">
+          Jump to
+          <input type="date" value="{{weekISO}}" onChange="{{jump}}" style="height: 44px; box-sizing: border-box; padding: 0 10px; border: 1px solid #D5D0C6; border-radius: 10px; background: #FFFFFF; font-size: 14px; color: #1C1B19">
+        </label>
+        <div style="flex-grow: 1"></div>
+        <div role="group" aria-label="View" style="display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: #E6E2DA">
+          <sc-for list="{{views}}" as="vw" hint-placeholder-count="2">
+            <button type="button" aria-pressed="{{vw.pressed}}" onClick="{{vw.pick}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; background: {{vw.bg}}; color: {{vw.fg}}; box-shadow: {{vw.shadow}}">{{vw.label}}</button>
+          </sc-for>
+        </div>
+        <div role="group" aria-label="Whose tasks" style="display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: #E6E2DA">
+          <sc-for list="{{scopes}}" as="sc" hint-placeholder-count="3">
+            <button type="button" aria-pressed="{{sc.pressed}}" onClick="{{sc.pick}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; background: {{sc.bg}}; color: {{sc.fg}}; box-shadow: {{sc.shadow}}">{{sc.label}}</button>
+          </sc-for>
+        </div>
+        <sc-if value="{{canSeeAll}}" hint-placeholder-val="{{ true }}">
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #57534B">
+            Assignee
+            <select value="{{person}}" onChange="{{pickPerson}}" style="height: 44px; padding: 0 10px; border: 1px solid #D5D0C6; border-radius: 10px; background: #FFFFFF; font-size: 14px; color: #1C1B19">
+              <option value="any">Anyone</option>
+              <sc-for list="{{people}}" as="p" hint-placeholder-count="5">
+                <option value="{{p.id}}">{{p.name}}</option>
+              </sc-for>
+            </select>
+          </label>
+        </sc-if>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 20px; padding: 0 32px 14px; font-size: 14px; color: #57534B">
+        <span><strong style="color: #1C1B19">{{openCount}}</strong> open</span>
+        <span><strong style="color: #1C1B19">{{doneCount}}</strong> done</span>
+        <span style="color: #A33A08"><strong>{{overdueCount}}</strong> overdue</span>
+        <span style="width: 1px; height: 16px; background: #D5D0C6"></span>
+        <span>{{scopeNote}}</span>
+      </div>
+
+      <sc-if value="{{isCal}}" hint-placeholder-val="{{ false }}">
+      <div style="flex-grow: 1; overflow-y: auto; padding: 0 32px 32px">
+        <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 1px solid #E0DBD2; border-left: 1px solid #E0DBD2; border-radius: 12px; overflow: hidden; background: #FFFFFF">
+          <sc-for list="{{calHead}}" as="h" hint-placeholder-count="7">
+            <div style="padding: 8px 10px; border-right: 1px solid #E0DBD2; border-bottom: 1px solid #E0DBD2; background: #F4F2EE; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #57534B">{{h.label}}</div>
+          </sc-for>
+          <sc-for list="{{calCells}}" as="cell" hint-placeholder-count="35">
+            <section aria-label="{{cell.aria}}" style="min-height: 118px; box-sizing: border-box; padding: 8px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid #E0DBD2; border-bottom: 1px solid #E0DBD2; background: {{cell.bg}}">
+              <span style="align-self: flex-start; min-width: 26px; height: 26px; box-sizing: border-box; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; border-radius: 13px; font-size: 13px; font-weight: 600; background: {{cell.numBg}}; color: {{cell.numFg}}">{{cell.dnum}}</span>
+              <sc-for list="{{cell.items}}" as="it" hint-placeholder-count="2">
+                <a href="{{it.href}}" title="{{it.tip}}" style="display: flex; align-items: center; gap: 6px; min-width: 0; padding: 3px 6px; border: 1px solid {{it.border}}; border-radius: 6px; background: {{it.bg}}; color: {{it.fg}}; font-size: 12px; font-weight: 500; text-decoration: {{it.deco}}">
+                  <span style="width: 7px; height: 7px; flex-shrink: 0; border-radius: {{it.dotRadius}}; background: {{it.dot}}"></span>
+                  <span style="flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px">{{it.time}}</span>
+                  <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{it.title}}</span>
+                </a>
+              </sc-for>
+              <sc-if value="{{cell.hasMore}}" hint-placeholder-val="{{ false }}">
+                <span style="font-size: 12px; color: #57534B">{{cell.more}}</span>
+              </sc-if>
+            </section>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 18px; padding: 12px 2px 0; font-size: 12px; color: #57534B">
+          <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #A33A08"></span>Overdue deadline</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #2F4DB3"></span>Due today</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #57534B"></span>Upcoming deadline</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #A8A298"></span>Done</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 8px; height: 8px; border-radius: 2px; background: #6B665C"></span>Calendar event</span>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{isList}}" hint-placeholder-val="{{ true }}">
+      <div style="flex-grow: 1; overflow-y: auto; padding: 0 32px 32px">
+        <sc-for list="{{days}}" as="day" hint-placeholder-count="7">
+          <section aria-label="{{day.aria}}" style="display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 20px; padding: 18px 0; border-top: 1px solid #E0DBD2">
+            <div style="width: 72px; height: 76px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; background: {{day.headBg}}; color: {{day.headFg}}">
+              <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase">{{day.dow}}</span>
+              <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; font-weight: 700; line-height: 1.05">{{day.dnum}}</span>
+              <span style="font-size: 12px">{{day.mon}}</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; min-width: 0">
+              <sc-if value="{{day.hasEvents}}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B665C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Calendar events"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg>
+                  <sc-for list="{{day.events}}" as="ev" hint-placeholder-count="2">
+                    <span style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px; border-radius: 6px; background: #E6E2DA; font-size: 13px; color: #1C1B19">
+                      <span style="width: 8px; height: 8px; border-radius: 50%; background: {{ev.color}}"></span>
+                      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #57534B">{{ev.time}}</span>
+                      {{ev.title}}
+                      <sc-if value="{{ev.canAssign}}" hint-placeholder-val="{{ true }}">
+                        <select value="{{ev.to}}" onChange="{{ev.assign}}" aria-label="{{ev.assignLabel}}" style="height: 28px; padding: 0 6px; border: 1px solid {{ev.selBorder}}; border-radius: 6px; background: {{ev.selBg}}; font-size: 12px; font-weight: 600; color: {{ev.selFg}}">
+                          <option value="none">Not shared</option>
+                          <sc-for list="{{ev.people}}" as="p" hint-placeholder-count="3">
+                            <option value="{{p.id}}">{{p.label}}</option>
+                          </sc-for>
+                        </select>
+                      </sc-if>
+                      <sc-if value="{{ev.forYou}}" hint-placeholder-val="{{ false }}">
+                        <span style="padding: 2px 8px; border-radius: 6px; background: #E1E7FA; font-size: 12px; font-weight: 600; color: #243C8F">Assigned to you</span>
+                      </sc-if>
+                    </span>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{day.hasTasks}}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; flex-direction: column; gap: 8px">
+                  <sc-for list="{{day.tasks}}" as="t" hint-placeholder-count="2">
+                    <div style="display: flex; align-items: center; gap: 14px; padding: 10px 16px 10px 6px; border: 1px solid #E0DBD2; border-radius: 12px; background: {{t.rowBg}}">
+                      <label for="{{t.cid}}" title="{{t.checkLabel}}" style="width: 44px; height: 44px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; cursor: {{t.cursor}}">
+                        <input id="{{t.cid}}" type="checkbox" checked="{{t.done}}" disabled="{{t.locked}}" onChange="{{t.toggle}}" aria-label="{{t.checkLabel}}" style="width: 22px; height: 22px; margin: 0; accent-color: #2F4DB3; cursor: {{t.cursor}}">
+                      </label>
+                      <div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+                        <a href="TaskDetail.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: {{t.deco}}; color: {{t.titleColor}}">{{t.title}}</a>
+                        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
+                          <sc-if value="{{t.hasShow}}" hint-placeholder-val="{{ true }}">
+                            <span title="Show number — from Airtable (planned)" style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border: 1px solid #D5D0C6; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #3D3A34; background: #FAF9F6">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"></path></svg>
+                              Show {{t.show}}
+                            </span>
+                          </sc-if>
+                          <sc-for list="{{t.tags}}" as="tag" hint-placeholder-count="1">
+                            <span style="display: inline-flex; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; background: {{tag.bg}}; color: {{tag.fg}}">{{tag.name}}</span>
+                          </sc-for>
+                          <sc-if value="{{t.hasGroup}}" hint-placeholder-val="{{ true }}">
+                            <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: #57534B">
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"></path></svg>
+                              {{t.group}} group
+                            </span>
+                          </sc-if>
+                        </div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 13px; font-weight: {{t.dueWeight}}; color: {{t.dueColor}}">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                        {{t.dueText}}
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px; width: 132px; flex-shrink: 0; justify-content: flex-end">
+                        <sc-if value="{{t.locked}}" hint-placeholder-val="{{ false }}">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B665C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+                        </sc-if>
+                        <span style="font-size: 13px; color: #3D3A34">{{t.who}}</span>
+                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; font-size: 12px; font-weight: 600; color: #FFFFFF; background: {{t.avatarBg}}">{{t.initials}}</span>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{day.noTasks}}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 0; padding: 10px 0; font-size: 14px; color: #6B665C">Nothing due</p>
+              </sc-if>
+            </div>
+          </section>
+        </sc-for>
+      </div>
+      </sc-if>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1024}}'>
+class Component extends DCLogic {
+  seed() {
+    if (this._seed) return this._seed;
+    const users = {
+      joe:    { id: 'joe',    name: 'Joseph Murphy', short: 'Joe M.',    initials: 'JM', role: 'Admin',   groups: ['Production', 'Operations'], color: '#2F4DB3' },
+      dana:   { id: 'dana',   name: 'Dana Reyes',    short: 'Dana R.',   initials: 'DR', role: 'Manager', groups: ['Production'],               color: '#8A4B0F' },
+      priya:  { id: 'priya',  name: 'Priya Shah',    short: 'Priya S.',  initials: 'PS', role: 'User',    groups: ['Production'],               color: '#5B3E96' },
+      marcus: { id: 'marcus', name: 'Marcus Lee',    short: 'Marcus L.', initials: 'ML', role: 'User',    groups: ['Creative'],                 color: '#23603A' },
+      lena:   { id: 'lena',   name: 'Lena Park',     short: 'Lena P.',   initials: 'LP', role: 'User',    groups: ['Creative', 'Operations'],   color: '#7A3B5E' }
+    };
+    const tags = {
+      Production: { bg: '#E1E7FA', fg: '#243C8F' },
+      Logistics:  { bg: '#FBE4D2', fg: '#86390A' },
+      Creative:   { bg: '#ECE3F8', fg: '#523887' },
+      Finance:    { bg: '#DDF0E3', fg: '#1F5A35' },
+      Admin:      { bg: '#E6E3DC', fg: '#45423C' }
+    };
+    const accounts = [
+      { email: 'Google · [you@company.com]', cals: [
+        { id: 'work',  name: 'My work calendar',    color: '#2F4DB3' },
+        { id: 'prod',  name: 'Production schedule', color: '#C2560F' },
+        { id: 'venue', name: 'Venue holds',         color: '#23603A' }
+      ] },
+      { email: 'Microsoft 365 · [team@company.com]', cals: [
+        { id: 'pto',  name: 'Team PTO',           color: '#7A7468' },
+        { id: 'load', name: 'Load-in / load-out', color: '#5B3E96' }
+      ] }
+    ];
+    const events = [
+      { date: '2026-09-22', time: '09:30', title: 'Production standup', cal: 'prod' },
+      { date: '2026-09-24', time: '07:00', title: 'Load-in — Show 2417 rehearsal', cal: 'load' },
+      { date: '2026-09-28', time: '09:30', title: 'Production standup', cal: 'prod' },
+      { date: '2026-09-28', time: '',      title: 'Lena out', cal: 'pto' },
+      { date: '2026-09-29', time: '09:30', title: 'Production standup', cal: 'prod' },
+      { date: '2026-09-29', time: '13:00', title: 'Vendor call — staging', cal: 'work' },
+      { date: '2026-09-30', time: '08:00', title: 'Pick up tractor and trailer', cal: 'work', to: 'priya' },
+      { date: '2026-09-30', time: '',      title: 'Venue hold — Hall B', cal: 'venue' },
+      { date: '2026-09-30', time: '15:00', title: '1:1 with Dana', cal: 'work' },
+      { date: '2026-10-01', time: '07:00', title: 'Load-in — Show 2417', cal: 'load', to: 'marcus' },
+      { date: '2026-10-01', time: '09:30', title: 'Production standup', cal: 'prod' },
+      { date: '2026-10-02', time: '18:00', title: 'Load-out — Show 2417', cal: 'load' },
+      { date: '2026-10-05', time: '09:30', title: 'Production standup', cal: 'prod' },
+      { date: '2026-10-06', time: '',      title: 'Venue hold — Hall A', cal: 'venue' }
+    ];
+    const tasks = [
+      { id: 't1',  title: 'Send final floor plan to venue',       date: '2026-09-24', time: '',      assignee: 'dana',  group: 'Production', tags: ['Production'],          show: '2417', done: true },
+      { id: 't2',  title: 'Reconcile September vendor invoices',  date: '2026-09-25', time: '12:00', assignee: 'joe',    group: null,         tags: ['Finance'],             show: null,   done: true },
+      { id: 't3',  title: 'Update crew contact sheet',            date: '2026-09-25', time: '16:00', assignee: 'priya',  group: 'Production', tags: ['Admin'],               show: '2417', done: false },
+      { id: 't4',  title: 'Confirm truck and driver for load-in', date: '2026-09-28', time: '15:00', assignee: 'priya',  group: 'Production', tags: ['Logistics'],           show: '2417', done: false },
+      { id: 't5',  title: 'Approve stage graphics proofs',        date: '2026-09-29', time: '11:00', assignee: 'marcus', group: 'Creative',   tags: ['Creative'],            show: '2417', done: false },
+      { id: 't6',  title: 'Book hotel block for crew',            date: '2026-09-29', time: '',      assignee: 'priya',  group: null,         tags: ['Logistics'],           show: '2421', done: false },
+      { id: 't7',  title: 'Review Q4 budget draft',               date: '2026-09-30', time: '10:00', assignee: 'joe',    group: null,         tags: ['Finance', 'Admin'],    show: null,   done: false },
+      { id: 't8',  title: 'Final run-of-show walkthrough',        date: '2026-09-30', time: '14:00', assignee: 'dana',   group: 'Production', tags: ['Production'],          show: '2417', done: false },
+      { id: 't9',  title: 'Print badges and lanyards',            date: '2026-10-01', time: '09:00', assignee: 'lena',   group: 'Operations', tags: ['Logistics', 'Creative'], show: '2417', done: false },
+      { id: 't10', title: 'Pack AV kit and test mics',            date: '2026-10-01', time: '16:00', assignee: 'priya',  group: 'Production', tags: ['Production'],          show: '2417', done: false },
+      { id: 't11', title: 'Collect signed crew timesheets',       date: '2026-10-02', time: '',      assignee: 'joe',   group: 'Operations', tags: ['Admin'],               show: '2417', done: false },
+      { id: 't12', title: 'Post-show wrap notes',                 date: '2026-10-02', time: '18:00', assignee: 'dana',   group: 'Production', tags: ['Production'],          show: '2417', done: false },
+      { id: 't13', title: 'Social recap post',                    date: '2026-10-03', time: '12:00', assignee: 'marcus', group: 'Creative',   tags: ['Creative'],            show: '2417', done: false },
+      { id: 't14', title: 'Kickoff call for Show 2421',           date: '2026-10-05', time: '10:00', assignee: 'dana',   group: 'Production', tags: ['Production'],          show: '2421', done: false },
+      { id: 't15', title: 'Venue site visit',                     date: '2026-10-06', time: '13:00', assignee: 'priya',  group: 'Production', tags: ['Logistics'],           show: '2421', done: false },
+      { id: 't16', title: 'Draft event poster',                   date: '2026-10-07', time: '',      assignee: 'lena',  group: 'Creative',   tags: ['Creative'],            show: '2421', done: false },
+      { id: 't17', title: 'Renew software licenses',              date: '2026-10-08', time: '12:00', assignee: 'joe',    group: null,         tags: ['Admin', 'Finance'],    show: null,   done: false }
+    ];
+    this._seed = { users, tags, accounts, events, tasks };
+    return this._seed;
+  }
+
+  now() { return new Date(2026, 8, 29, 12, 0); }
+  ymd(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  parse(s) { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); }
+  mondayOf(d) { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+  fmtTime(t) { const p = t.split(':').map(Number); const h = p[0] % 12 || 12; return h + ':' + String(p[1]).padStart(2, '0') + (p[0] >= 12 ? ' PM' : ' AM'); }
+  eff(t) { return t.time || '16:00'; }
+  dueLabel(t) { return t.time ? this.fmtTime(t.time) : 'end of day'; }
+  st() { return this.state || {}; }
+
+  renderVals() {
+    const S = this.seed();
+    const s = this.st();
+    const NOW = this.now();
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    const role = s.role || 'Admin';
+    const viewerId = { Admin: 'joe', Manager: 'dana', User: 'priya' }[role];
+    const viewer = S.users[viewerId];
+    const canSeeAll = role !== 'User';
+    let scope = s.scope || (canSeeAll ? 'all' : 'groups');
+    if (scope === 'all' && !canSeeAll) scope = 'groups';
+    const person = canSeeAll ? (s.person || 'any') : 'any';
+    const doneMap = s.done || {};
+    const calsOn = s.calsOn || { work: true, prod: true, venue: true, pto: true, load: true };
+    const evTo = s.evTo || {};
+    const assignable = Object.values(S.users).filter((u) => u.role === 'User').map((u) => ({ id: u.id, label: 'Visible to ' + u.short }))
+      .concat([{ id: 'tv-warehouse', label: 'Visible on Warehouse TV' }, { id: 'tv-carpenters', label: 'Visible on Carpenters TV' }]);
+    const tagOn = s.tagOn || {};
+    const activeTags = Object.keys(tagOn).filter((k) => tagOn[k]);
+    const thisMonday = this.mondayOf(NOW);
+    const weekStart = s.weekStart ? this.parse(s.weekStart) : thisMonday;
+    const todayKey = this.ymd(NOW);
+
+    const calColor = {};
+    S.accounts.forEach((a) => a.cals.forEach((c) => { calColor[c.id] = c.color; }));
+
+    const inScope = (t) => {
+      if (scope === 'mine') return t.assignee === viewerId;
+      if (scope === 'groups') return t.assignee === viewerId || (t.group && viewer.groups.includes(t.group));
+      return true;
+    };
+    const byPerson = (t) => person === 'any' || t.assignee === person;
+    const byTag = (t) => activeTags.length === 0 || t.tags.some((g) => activeTags.includes(g));
+
+    let openCount = 0, doneCount = 0, overdueCount = 0;
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(weekStart); d.setDate(d.getDate() + i);
+      const key = this.ymd(d);
+      const isToday = key === todayKey;
+      const tasks = S.tasks
+        .filter((t) => t.date === key && inScope(t) && byPerson(t) && byTag(t))
+        .sort((a, b) => this.eff(a).localeCompare(this.eff(b)))
+        .map((t) => {
+          const isDone = t.id in doneMap ? doneMap[t.id] : t.done;
+          const due = this.parse(t.date); const hm = this.eff(t).split(':').map(Number); due.setHours(hm[0], hm[1]);
+          const overdue = !isDone && due < NOW;
+          const dueToday = !isDone && !overdue && key === todayKey;
+          const locked = !canSeeAll && t.assignee !== viewerId;
+          const a = S.users[t.assignee];
+          if (isDone) doneCount++; else openCount++;
+          if (overdue) overdueCount++;
+          return {
+            title: t.title, cid: 'chk-' + t.id, done: isDone, locked,
+            cursor: locked ? 'not-allowed' : 'pointer',
+            toggle: () => {
+              if (locked) return;
+              const cur = this.st().done || {};
+              this.setState({ done: Object.assign({}, cur, { [t.id]: !isDone }) });
+            },
+            checkLabel: locked ? 'Only ' + a.name + ', a manager or an admin can mark this complete' : (isDone ? 'Mark incomplete: ' : 'Mark complete: ') + t.title,
+            deco: isDone ? 'line-through' : 'none',
+            titleColor: isDone ? '#6B665C' : '#1C1B19',
+            rowBg: isDone ? '#F9F8F5' : '#FFFFFF',
+            dueText: (isDone ? 'Done · ' : overdue ? 'Overdue · ' : dueToday ? 'Due today · ' : 'Due ') + DOW[i] + ' ' + this.dueLabel(t),
+            dueColor: overdue ? '#A33A08' : dueToday ? '#2F4DB3' : '#57534B',
+            dueWeight: overdue || dueToday ? '600' : '400',
+            hasShow: !!t.show, show: t.show,
+            tags: t.tags.map((g) => ({ name: g, bg: S.tags[g].bg, fg: S.tags[g].fg })),
+            hasGroup: !!t.group, group: t.group,
+            who: t.assignee === viewerId ? 'You' : a.short,
+            initials: a.initials, avatarBg: a.color
+          };
+        });
+      const events = S.events
+        .map((e, n) => ({ e, eid: 'e' + n }))
+        .map((x) => Object.assign(x, { to: x.eid in evTo ? evTo[x.eid] : (x.e.to || 'none') }))
+        .filter((x) => x.e.date === key && (canSeeAll ? calsOn[x.e.cal] : x.to === viewerId))
+        .map((x) => ({
+          title: x.e.title, time: x.e.time ? this.fmtTime(x.e.time) : 'All day', color: calColor[x.e.cal],
+          canAssign: canSeeAll, forYou: !canSeeAll, to: x.to, people: assignable,
+          assignLabel: 'Who can see: ' + x.e.title,
+          selBg: x.to === 'none' ? '#FFFFFF' : '#E1E7FA', selFg: x.to === 'none' ? '#57534B' : '#243C8F',
+          selBorder: x.to === 'none' ? '#CFCAC0' : '#2F4DB3',
+          assign: (ev) => { const cur = this.st().evTo || {}; this.setState({ evTo: Object.assign({}, cur, { [x.eid]: ev.target.value }) }); }
+        }));
+      days.push({
+        dow: DOW[i], dnum: d.getDate(), mon: MON[d.getMonth()],
+        aria: DOW[i] + ' ' + MON[d.getMonth()] + ' ' + d.getDate() + (isToday ? ', today' : ''),
+        headBg: isToday ? '#1C1B19' : '#FFFFFF', headFg: isToday ? '#F4F2EE' : '#1C1B19',
+        tasks, hasTasks: tasks.length > 0, noTasks: tasks.length === 0,
+        events, hasEvents: events.length > 0
+      });
+    }
+
+    const view = s.view || 'list';
+    const isCal = view === 'cal';
+    const mid = new Date(weekStart); mid.setDate(mid.getDate() + 3);
+    const mY = mid.getFullYear(), mM = mid.getMonth();
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const calCells = [];
+    if (isCal) {
+      openCount = 0; doneCount = 0; overdueCount = 0;
+      const gridStart = this.mondayOf(new Date(mY, mM, 1));
+      const lastDay = new Date(mY, mM + 1, 0);
+      const weeks = Math.ceil((Math.round((lastDay - gridStart) / 86400000) + 1) / 7);
+      for (let i = 0; i < weeks * 7; i++) {
+        const d = new Date(gridStart); d.setDate(d.getDate() + i);
+        const key = this.ymd(d);
+        const inMonth = d.getMonth() === mM;
+        const isToday = key === todayKey;
+        const items = [];
+        S.events.forEach((e, n) => {
+          const to = ('e' + n) in evTo ? evTo['e' + n] : (e.to || 'none');
+          if (e.date !== key || !(canSeeAll ? calsOn[e.cal] : to === viewerId)) return;
+          items.push({ sort: e.time || '00:00', time: e.time ? this.fmtTime(e.time) : 'All day', title: e.title, tip: 'Calendar event: ' + e.title,
+            href: 'Calendars.dc.html', bg: '#E6E2DA', fg: '#1C1B19', border: '#E6E2DA', dot: calColor[e.cal], dotRadius: '2px', deco: 'none' });
+        });
+        S.tasks.filter((t) => t.date === key && inScope(t) && byPerson(t) && byTag(t)).forEach((t) => {
+          const isDone = t.id in doneMap ? doneMap[t.id] : t.done;
+          const due = this.parse(t.date); const hm = this.eff(t).split(':').map(Number); due.setHours(hm[0], hm[1]);
+          const overdue = !isDone && due < NOW;
+          const dueToday = !isDone && !overdue && isToday;
+          if (inMonth) { if (isDone) doneCount++; else openCount++; if (overdue) overdueCount++; }
+          const who = t.assignee === viewerId ? 'You' : S.users[t.assignee].short;
+          items.push({ sort: this.eff(t), time: t.time ? this.fmtTime(t.time) : 'EOD', title: t.title,
+            tip: (isDone ? 'Done' : overdue ? 'Overdue' : 'Deadline') + ' ' + this.dueLabel(t) + ' · ' + t.title + ' · ' + who,
+            href: 'TaskDetail.dc.html',
+            bg: isDone ? '#F4F2EE' : overdue ? '#FBE4D2' : dueToday ? '#E1E7FA' : '#FFFFFF',
+            fg: isDone ? '#6B665C' : overdue ? '#86390A' : dueToday ? '#243C8F' : '#1C1B19',
+            border: isDone ? '#E0DBD2' : overdue ? '#E9B48F' : dueToday ? '#9DB0EA' : '#CFCAC0',
+            dot: isDone ? '#A8A298' : overdue ? '#A33A08' : dueToday ? '#2F4DB3' : '#57534B', dotRadius: '50%',
+            deco: isDone ? 'line-through' : 'none' });
+        });
+        items.sort((a, b) => a.sort.localeCompare(b.sort));
+        calCells.push({
+          dnum: d.getDate(), aria: MON[d.getMonth()] + ' ' + d.getDate() + (isToday ? ', today' : '') + ', ' + items.length + ' items',
+          bg: inMonth ? '#FFFFFF' : '#F9F8F5',
+          numBg: isToday ? '#1C1B19' : 'transparent', numFg: isToday ? '#F4F2EE' : inMonth ? '#1C1B19' : '#6B665C',
+          items: items.slice(0, 3), hasMore: items.length > 3, more: '+' + (items.length - 3) + ' more'
+        });
+      }
+    }
+    const calHead = DOW.map((x) => ({ label: x }));
+    const views = [{ id: 'list', label: 'Week list' }, { id: 'cal', label: 'Month calendar' }].map((x) => ({
+      label: x.label, pressed: x.id === view ? 'true' : 'false',
+      bg: x.id === view ? '#FFFFFF' : 'transparent', fg: x.id === view ? '#1C1B19' : '#57534B',
+      shadow: x.id === view ? '0 1px 2px rgba(28,27,25,0.15)' : 'none',
+      pick: () => this.setState({ view: x.id })
+    }));
+    const shiftMonth = (n) => this.setState({ weekStart: this.ymd(this.mondayOf(new Date(mY, mM + n, 4))) });
+
+    const end = new Date(weekStart); end.setDate(end.getDate() + 6);
+    const weekTitle = isCal ? MONTHS[mM] + ' ' + mY : MON[weekStart.getMonth()] + ' ' + weekStart.getDate() + ' – ' +
+      (end.getMonth() !== weekStart.getMonth() ? MON[end.getMonth()] + ' ' : '') + end.getDate() + ', ' + end.getFullYear();
+    const diff = Math.round((weekStart - thisMonday) / (7 * 86400000));
+    const weekTag = isCal ? 'Deadlines by month' : diff === 0 ? 'This week' : diff === -1 ? 'Last week' : diff === 1 ? 'Next week' : (diff > 0 ? diff + ' weeks ahead' : -diff + ' weeks ago');
+    const shiftWeek = (n) => { const x = new Date(weekStart); x.setDate(x.getDate() + 7 * n); this.setState({ weekStart: this.ymd(x) }); };
+
+    const scopeDefs = [
+      { id: 'mine', label: 'Assigned to me' },
+      { id: 'groups', label: 'Me + my groups' },
+      { id: 'all', label: 'Everyone' }
+    ].filter((x) => canSeeAll || x.id !== 'all');
+    const scopes = scopeDefs.map((x) => ({
+      label: x.label, pressed: x.id === scope ? 'true' : 'false',
+      bg: x.id === scope ? '#FFFFFF' : 'transparent', fg: x.id === scope ? '#1C1B19' : '#57534B',
+      shadow: x.id === scope ? '0 1px 2px rgba(28,27,25,0.15)' : 'none',
+      pick: () => this.setState({ scope: x.id })
+    }));
+    const scopeNote = scope === 'mine' ? 'Tasks assigned to ' + viewer.short
+      : scope === 'groups' ? viewer.short + '’s tasks + ' + viewer.groups.join(' & ') + ' group'
+      : (person === 'any' ? 'Everyone on the team' : 'Assigned to ' + S.users[person].name);
+
+    const roles = ['Admin', 'Manager', 'User'].map((r) => ({
+      label: r, pressed: r === role ? 'true' : 'false',
+      bg: r === role ? '#F4F2EE' : 'transparent', fg: r === role ? '#1C1B19' : '#CFCAC0',
+      pick: () => this.setState({ role: r, person: 'any', scope: r === 'User' ? 'groups' : 'all' })
+    }));
+
+    const accounts = S.accounts.map((acc) => ({
+      email: acc.email,
+      cals: acc.cals.map((c) => ({
+        name: c.name, color: c.color, on: !!calsOn[c.id], cid: 'cal-' + c.id,
+        toggle: () => { const cur = this.st().calsOn || calsOn; this.setState({ calsOn: Object.assign({}, cur, { [c.id]: !cur[c.id] }) }); }
+      }))
+    }));
+
+    const tagList = Object.keys(S.tags).map((g) => ({
+      name: g, bg: S.tags[g].bg, fg: S.tags[g].fg, on: !!tagOn[g], cid: 'tag-' + g,
+      toggle: () => { const cur = this.st().tagOn || {}; this.setState({ tagOn: Object.assign({}, cur, { [g]: !cur[g] }) }); }
+    }));
+
+    return {
+      roles, viewerName: viewer.name, viewerRole: viewer.role, viewerInitials: viewer.initials, viewerColor: viewer.color,
+      isAdmin: role === 'Admin', isUser: role === 'User', canSeeAll,
+      accounts, tagList, hasTagFilter: activeTags.length > 0, clearTags: () => this.setState({ tagOn: {} }),
+      weekTitle, weekTag, weekISO: this.ymd(weekStart),
+      prevWeek: () => (isCal ? shiftMonth(-1) : shiftWeek(-1)), nextWeek: () => (isCal ? shiftMonth(1) : shiftWeek(1)),
+      prevLabel: isCal ? 'Previous month' : 'Previous week', nextLabel: isCal ? 'Next month' : 'Next week',
+      isCal, isList: !isCal, views, calHead, calCells,
+      thisWeek: () => this.setState({ weekStart: this.ymd(thisMonday) }),
+      jump: (e) => { const v = e && e.target && e.target.value; if (v) this.setState({ weekStart: this.ymd(this.mondayOf(this.parse(v))) }); },
+      scopes, scopeNote,
+      person, people: Object.values(S.users).map((u) => ({ id: u.id, name: u.name })),
+      pickPerson: (e) => this.setState({ person: e.target.value }),
+      openCount, doneCount, overdueCount,
+      days
+    };
+  }
+}
+</script>
+</body>
+</html>

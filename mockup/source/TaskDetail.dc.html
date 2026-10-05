@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Runsheet — Edit task</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'IBM Plex Sans',system-ui,sans-serif;background:#F4F2EE;color:#1C1B19}
+a{color:#2F4DB3}a:hover{color:#1F3585}
+button,input,select,textarea{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 960px; height: 1024px; box-sizing: border-box; padding: 32px 40px; display: flex; flex-direction: column; gap: 24px; background: #F4F2EE; color: #1C1B19; font-family: 'IBM Plex Sans', system-ui, sans-serif">
+  <div style="display: flex; flex-direction: column; gap: 6px">
+    <a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; min-height: 32px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+      Back to week view
+    </a>
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.02em">Edit task</h1>
+  </div>
+
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; flex-grow: 1; min-height: 0">
+    <form style="display: flex; flex-direction: column; gap: 20px; padding: 28px; background: #FFFFFF; border: 1px solid #E0DBD2; border-radius: 16px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="f-title" style="font-size: 14px; font-weight: 600">Title</label>
+        <input id="f-title" type="text" value="Confirm truck and driver for load-in" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #CFCAC0; border-radius: 10px; font-size: 15px">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="f-notes" style="font-size: 14px; font-weight: 600">Notes</label>
+        <textarea id="f-notes" rows="3" placeholder="Details, links, who to call" style="box-sizing: border-box; padding: 10px 12px; border: 1px solid #CFCAC0; border-radius: 10px; font-size: 15px; resize: vertical"></textarea>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-assignee" style="font-size: 14px; font-weight: 600">Assigned to</label>
+          <select id="f-assignee" style="height: 44px; padding: 0 10px; border: 1px solid #CFCAC0; border-radius: 10px; font-size: 15px; background: #FFFFFF">
+            <option>Priya Shah</option>
+            <option>Joseph Murphy</option>
+            <option>Dana Reyes</option>
+            <option>Marcus Lee</option>
+            <option>Lena Park</option>
+          </select>
+          <span style="font-size: 13px; color: #57534B">Priya, or any manager or admin, can mark this complete.</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-group" style="font-size: 14px; font-weight: 600">Share with group <span style="font-weight: 400; color: #6B665C">(optional)</span></label>
+          <select id="f-group" style="height: 44px; padding: 0 10px; border: 1px solid #CFCAC0; border-radius: 10px; font-size: 15px; background: #FFFFFF">
+            <option>Production</option>
+            <option>No group</option>
+            <option>Creative</option>
+            <option>Operations</option>
+          </select>
+          <span style="font-size: 13px; color: #57534B">Everyone in Production can see it.</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-date" style="font-size: 14px; font-weight: 600">Deadline date</label>
+          <input id="f-date" type="date" value="2026-09-28" style="height: 44px; box-sizing: border-box; padding: 0 10px; border: 1px solid #CFCAC0; border-radius: 10px; font-size: 15px">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-time" style="font-size: 14px; font-weight: 600">Deadline time <span style="font-weight: 400; color: #6B665C">(optional)</span></label>
+          <input id="f-time" type="time" style="height: 44px; box-sizing: border-box; padding: 0 10px; border: 1px solid #CFCAC0; border-radius: 10px; font-size: 15px">
+          <span style="font-size: 13px; color: #57534B">Blank means due by end of business day (4:00 PM). Set a time to override.</span>
+        </div>
+      </div>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px">
+        <legend style="padding: 0; margin-bottom: 8px; font-size: 14px; font-weight: 600">Tags</legend>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+          <span style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 6px 4px 12px; border-radius: 999px; font-size: 14px; font-weight: 500; background: #FBE4D2; color: #86390A">
+            Logistics
+            <button type="button" aria-label="Remove Logistics tag" style="width: 28px; height: 28px; border: 0; background: transparent; color: inherit; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+            </button>
+          </span>
+          <button type="button" style="height: 36px; padding: 0 14px; border: 1px dashed #A8A298; background: transparent; border-radius: 999px; font-size: 14px; color: #3D3A34; cursor: pointer">+ Add tag</button>
+        </div>
+      </fieldset>
+
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; align-items: center; gap: 8px">
+          <label for="f-show" style="font-size: 14px; font-weight: 600">Show number</label>
+          <span style="padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; background: #E6E3DC; color: #45423C">Airtable lookup · later</span>
+        </div>
+        <input id="f-show" type="text" value="2417" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #CFCAC0; border-radius: 10px; font-size: 15px; font-family: 'IBM Plex Mono', monospace; background: #FAF9F6">
+        <span style="font-size: 13px; color: #57534B">For now you type it in. Once connected, this becomes a search of show numbers pulled from Airtable.</span>
+      </div>
+
+      <label for="f-cal" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border: 1px solid #E0DBD2; border-radius: 10px; font-size: 14px; background: #FAF9F6; cursor: pointer">
+        <input id="f-cal" type="checkbox" checked="{{ true }}" style="width: 18px; height: 18px; margin: 0; accent-color: #2F4DB3">
+        <span style="flex-grow: 1">Add deadline to a synced calendar</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px; color: #3D3A34"><span style="width: 10px; height: 10px; border-radius: 3px; background: #C2560F"></span>Production schedule</span>
+      </label>
+
+      <div style="flex-grow: 1"></div>
+      <div style="display: flex; justify-content: flex-end; gap: 12px">
+        <a href="Main.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border: 1px solid #CFCAC0; border-radius: 10px; font-size: 15px; font-weight: 600; color: #1C1B19; text-decoration: none; background: #FFFFFF">Cancel</a>
+        <a href="Main.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 22px; border-radius: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; text-decoration: none; background: #2F4DB3">Save task</a>
+      </div>
+    </form>
+
+    <aside style="display: flex; flex-direction: column; gap: 16px">
+      <section style="padding: 20px; background: #FFFFFF; border: 1px solid #E0DBD2; border-radius: 16px; display: flex; flex-direction: column; gap: 14px">
+        <h2 style="margin: 0; font-size: 15px; font-weight: 600">Status</h2>
+        <label for="f-done" style="display: flex; align-items: center; gap: 12px; min-height: 44px; font-size: 14px; color: #1C1B19; cursor: pointer">
+          <input id="f-done" type="checkbox" style="width: 22px; height: 22px; margin: 0; accent-color: #2F4DB3; cursor: pointer">
+          Mark complete
+        </label>
+        <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #57534B">
+          You're viewing as an admin, so you can check this off for Priya. Other users can't.
+        </p>
+      </section>
+      <section style="padding: 20px; background: #FFFFFF; border: 1px solid #E0DBD2; border-radius: 16px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-size: 15px; font-weight: 600">Who can do what</h2>
+        <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; line-height: 1.5; color: #3D3A34">
+          <li><strong>Assignee</strong>: marks it complete</li>
+          <li><strong>Managers and admins</strong>: create, assign, reassign, edit deadlines, mark any task complete</li>
+          <li><strong>Group members</strong>: can see it and comment</li>
+        </ul>
+        <a href="Roles.dc.html" style="font-size: 13px; font-weight: 500">See all permissions</a>
+      </section>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":960,"height":1024}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

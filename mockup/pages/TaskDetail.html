@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en"><head><style>
+    .sc-placeholder{background:color-mix(in srgb,currentColor 8%,transparent);
+      border:1px solid color-mix(in srgb,currentColor 50%,transparent);
+      border-radius:2px;box-sizing:border-box;overflow:hidden}
+    @keyframes sc-shine{0%{background-position:100% 50%}100%{background-position:0% 50%}}
+    html.sc-dc-streaming .sc-placeholder,
+    html.sc-dc-streaming .sc-interp.sc-missing{position:relative;
+      background:color-mix(in srgb,currentColor 5%,transparent);
+      border-color:transparent}
+    html.sc-dc-streaming .sc-placeholder::before,
+    html.sc-dc-streaming .sc-interp.sc-missing::before{content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(217,119,87,0) 25%,rgba(247,225,211,.95) 37%,rgba(217,119,87,0) 63%);
+      background-size:400% 100%;animation:sc-shine 1.4s ease infinite}
+    html.sc-dc-streaming .sc-placeholder:nth-child(n+9 of .sc-placeholder)::before,
+    html.sc-dc-streaming .sc-interp.sc-missing:nth-child(n+9 of .sc-interp.sc-missing)::before{animation:none;
+      background:color-mix(in srgb,currentColor 8%,transparent)}
+    .sc-placeholder-error{padding:4px 8px;font:11px/1.4 ui-monospace,monospace;
+      color:color-mix(in srgb,currentColor 70%,transparent);word-break:break-word}
+    .sc-interp.sc-missing{display:inline-block;width:2em;height:1em;overflow:hidden;
+      vertical-align:text-bottom;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;color:transparent;
+      user-select:none}
+    .sc-interp.sc-unresolved{font-family:ui-monospace,monospace;font-size:.85em;
+      color:color-mix(in srgb,currentColor 50%,transparent);
+      background:color-mix(in srgb,currentColor 10%,transparent);border-radius:3px;
+      padding:0 3px}
+    .sc-host.sc-has-error{position:relative}
+    .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
+      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      border-radius:4px;white-space:pre-wrap;pointer-events:none}
+    /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts — keep both
+       in sync until dc-runtime regains a build step. */
+    @media print {
+      @page { margin: 0.5cm; }
+      figure, table { break-inside: avoid; }
+      #dc-root, #dc-root > .sc-host { height: auto; }
+      *, *::before, *::after {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        animation-delay: -99s !important; animation-duration: .001s !important;
+        animation-iteration-count: 1 !important; animation-fill-mode: both !important;
+        animation-play-state: running !important; transition-duration: 0s !important;
+      }
+    }
+  </style>
+<meta charset="utf-8">
+<title>Runsheet — Edit task</title>
+<style>x-dc{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" data-dc-tpl="1"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet" data-dc-tpl="2"><style data-dc-tpl="3">
+body{margin:0;font-family:'IBM Plex Sans',system-ui,sans-serif;background:#F4F2EE;color:#1C1B19}
+a{color:#2F4DB3}a:hover{color:#1F3585}
+button,input,select,textarea{font-family:inherit}
+</style></head>
+<body>
+<div id="dc-root"><div class="sc-host" data-sc-name="TaskDetail"><div data-dc-tpl="4" style="width: 960px; height: 1024px; box-sizing: border-box; padding: 32px 40px; display: flex; flex-direction: column; gap: 24px; background: rgb(244, 242, 238); color: rgb(28, 27, 25); font-family: &quot;IBM Plex Sans&quot;, system-ui, sans-serif;">
+  <div data-dc-tpl="5" style="display: flex; flex-direction: column; gap: 6px;">
+    <a data-dc-tpl="6" href="Main.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; min-height: 32px;">
+      <svg data-dc-tpl="7" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-tpl="8" d="M15 18l-6-6 6-6"></path></svg>
+      Back to week view
+    </a>
+    <h1 data-dc-tpl="9" style="margin: 0px; font-family: &quot;Bricolage Grotesque&quot;, sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Edit task</h1>
+  </div>
+
+  <div data-dc-tpl="10" style="display: grid; grid-template-columns: minmax(0px, 1fr) 280px; gap: 24px; flex-grow: 1; min-height: 0px;">
+    <form data-dc-tpl="11" style="display: flex; flex-direction: column; gap: 20px; padding: 28px; background: rgb(255, 255, 255); border: 1px solid rgb(224, 219, 210); border-radius: 16px;">
+      <div data-dc-tpl="12" style="display: flex; flex-direction: column; gap: 6px;">
+        <label data-dc-tpl="13" for="f-title" style="font-size: 14px; font-weight: 600;">Title</label>
+        <input data-dc-tpl="14" id="f-title" type="text" value="Confirm truck and driver for load-in" style="height: 44px; box-sizing: border-box; padding: 0px 12px; border: 1px solid rgb(207, 202, 192); border-radius: 10px; font-size: 15px;">
+      </div>
+      <div data-dc-tpl="15" style="display: flex; flex-direction: column; gap: 6px;">
+        <label data-dc-tpl="16" for="f-notes" style="font-size: 14px; font-weight: 600;">Notes</label>
+        <textarea data-dc-tpl="17" id="f-notes" rows="3" placeholder="Details, links, who to call" style="box-sizing: border-box; padding: 10px 12px; border: 1px solid rgb(207, 202, 192); border-radius: 10px; font-size: 15px; resize: vertical;"></textarea>
+      </div>
+
+      <div data-dc-tpl="18" style="display: grid; grid-template-columns: repeat(2, minmax(0px, 1fr)); gap: 16px;">
+        <div data-dc-tpl="19" style="display: flex; flex-direction: column; gap: 6px;">
+          <label data-dc-tpl="20" for="f-assignee" style="font-size: 14px; font-weight: 600;">Assigned to</label>
+          <select data-dc-tpl="21" id="f-assignee" style="height: 44px; padding: 0px 10px; border: 1px solid rgb(207, 202, 192); border-radius: 10px; font-size: 15px; background: rgb(255, 255, 255);">
+            <option data-dc-tpl="22" selected="">Priya Shah</option>
+            <option data-dc-tpl="23">Joseph Murphy</option>
+            <option data-dc-tpl="24">Dana Reyes</option>
+            <option data-dc-tpl="25">Marcus Lee</option>
+            <option data-dc-tpl="26">Lena Park</option>
+          </select>
+          <span data-dc-tpl="27" style="font-size: 13px; color: rgb(87, 83, 75);">Priya, or any manager or admin, can mark this complete.</span>
+        </div>
+        <div data-dc-tpl="28" style="display: flex; flex-direction: column; gap: 6px;">
+          <label data-dc-tpl="29" for="f-group" style="font-size: 14px; font-weight: 600;">Share with group <span data-dc-tpl="30" style="font-weight: 400; color: rgb(107, 102, 92);">(optional)</span></label>
+          <select data-dc-tpl="31" id="f-group" style="height: 44px; padding: 0px 10px; border: 1px solid rgb(207, 202, 192); border-radius: 10px; font-size: 15px; background: rgb(255, 255, 255);">
+            <option data-dc-tpl="32" selected="">Production</option>
+            <option data-dc-tpl="33">No group</option>
+            <option data-dc-tpl="34">Creative</option>
+            <option data-dc-tpl="35">Operations</option>
+          </select>
+          <span data-dc-tpl="36" style="font-size: 13px; color: rgb(87, 83, 75);">Everyone in Production can see it.</span>
+        </div>
+        <div data-dc-tpl="37" style="display: flex; flex-direction: column; gap: 6px;">
+          <label data-dc-tpl="38" for="f-date" style="font-size: 14px; font-weight: 600;">Deadline date</label>
+          <input data-dc-tpl="39" id="f-date" type="date" value="2026-09-28" style="height: 44px; box-sizing: border-box; padding: 0px 10px; border: 1px solid rgb(207, 202, 192); border-radius: 10px; font-size: 15px;">
+        </div>
+        <div data-dc-tpl="40" style="display: flex; flex-direction: column; gap: 6px;">
+          <label data-dc-tpl="41" for="f-time" style="font-size: 14px; font-weight: 600;">Deadline time <span data-dc-tpl="42" style="font-weight: 400; color: rgb(107, 102, 92);">(optional)</span></label>
+          <input data-dc-tpl="43" id="f-time" type="time" style="height: 44px; box-sizing: border-box; padding: 0px 10px; border: 1px solid rgb(207, 202, 192); border-radius: 10px; font-size: 15px;">
+          <span data-dc-tpl="44" style="font-size: 13px; color: rgb(87, 83, 75);">Blank means due by end of business day (4:00 PM). Set a time to override.</span>
+        </div>
+      </div>
+
+      <fieldset data-dc-tpl="45" style="margin: 0px; padding: 0px; border: 0px; display: flex; flex-direction: column; gap: 8px;">
+        <legend data-dc-tpl="46" style="padding: 0px; margin-bottom: 8px; font-size: 14px; font-weight: 600;">Tags</legend>
+        <div data-dc-tpl="47" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+          <span data-dc-tpl="48" style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 6px 4px 12px; border-radius: 999px; font-size: 14px; font-weight: 500; background: rgb(251, 228, 210); color: rgb(134, 57, 10);">
+            Logistics
+            <button data-dc-tpl="49" type="button" aria-label="Remove Logistics tag" style="width: 28px; height: 28px; border: 0px; background: transparent; color: inherit; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg data-dc-tpl="50" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path data-dc-tpl="51" d="M6 6l12 12M18 6L6 18"></path></svg>
+            </button>
+          </span>
+          <button data-dc-tpl="52" type="button" style="height: 36px; padding: 0px 14px; border: 1px dashed rgb(168, 162, 152); background: transparent; border-radius: 999px; font-size: 14px; color: rgb(61, 58, 52); cursor: pointer;">+ Add tag</button>
+        </div>
+      </fieldset>
+
+      <div data-dc-tpl="53" style="display: flex; flex-direction: column; gap: 6px;">
+        <div data-dc-tpl="54" style="display: flex; align-items: center; gap: 8px;">
+          <label data-dc-tpl="55" for="f-show" style="font-size: 14px; font-weight: 600;">Show number</label>
+          <span data-dc-tpl="56" style="padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; background: rgb(230, 227, 220); color: rgb(69, 66, 60);">Airtable lookup · later</span>
+        </div>
+        <input data-dc-tpl="57" id="f-show" type="text" value="2417" style="height: 44px; box-sizing: border-box; padding: 0px 12px; border: 1px solid rgb(207, 202, 192); border-radius: 10px; font-size: 15px; font-family: &quot;IBM Plex Mono&quot;, monospace; background: rgb(250, 249, 246);">
+        <span data-dc-tpl="58" style="font-size: 13px; color: rgb(87, 83, 75);">For now you type it in. Once connected, this becomes a search of show numbers pulled from Airtable.</span>
+      </div>
+
+      <label data-dc-tpl="59" for="f-cal" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0px 14px; border: 1px solid rgb(224, 219, 210); border-radius: 10px; font-size: 14px; background: rgb(250, 249, 246); cursor: pointer;">
+        <input data-dc-tpl="60" id="f-cal" type="checkbox" checked="" style="width: 18px; height: 18px; margin: 0px; accent-color: rgb(47, 77, 179);">
+        <span data-dc-tpl="61" style="flex-grow: 1;">Add deadline to a synced calendar</span>
+        <span data-dc-tpl="62" style="display: inline-flex; align-items: center; gap: 6px; color: rgb(61, 58, 52);"><span data-dc-tpl="63" style="width: 10px; height: 10px; border-radius: 3px; background: rgb(194, 86, 15);"></span>Production schedule</span>
+      </label>
+
+      <div data-dc-tpl="64" style="flex-grow: 1;"></div>
+      <div data-dc-tpl="65" style="display: flex; justify-content: flex-end; gap: 12px;">
+        <a data-dc-tpl="66" href="Main.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0px 18px; border: 1px solid rgb(207, 202, 192); border-radius: 10px; font-size: 15px; font-weight: 600; color: rgb(28, 27, 25); text-decoration: none; background: rgb(255, 255, 255);">Cancel</a>
+        <a data-dc-tpl="67" href="Main.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0px 22px; border-radius: 10px; font-size: 15px; font-weight: 600; color: rgb(255, 255, 255); text-decoration: none; background: rgb(47, 77, 179);">Save task</a>
+      </div>
+    </form>
+
+    <aside data-dc-tpl="68" style="display: flex; flex-direction: column; gap: 16px;">
+      <section data-dc-tpl="69" style="padding: 20px; background: rgb(255, 255, 255); border: 1px solid rgb(224, 219, 210); border-radius: 16px; display: flex; flex-direction: column; gap: 14px;">
+        <h2 data-dc-tpl="70" style="margin: 0px; font-size: 15px; font-weight: 600;">Status</h2>
+        <label data-dc-tpl="71" for="f-done" style="display: flex; align-items: center; gap: 12px; min-height: 44px; font-size: 14px; color: rgb(28, 27, 25); cursor: pointer;">
+          <input data-dc-tpl="72" id="f-done" type="checkbox" style="width: 22px; height: 22px; margin: 0px; accent-color: rgb(47, 77, 179); cursor: pointer;">
+          Mark complete
+        </label>
+        <p data-dc-tpl="73" style="margin: 0px; font-size: 13px; line-height: 1.5; color: rgb(87, 83, 75);">
+          You're viewing as an admin, so you can check this off for Priya. Other users can't.
+        </p>
+      </section>
+      <section data-dc-tpl="74" style="padding: 20px; background: rgb(255, 255, 255); border: 1px solid rgb(224, 219, 210); border-radius: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <h2 data-dc-tpl="75" style="margin: 0px; font-size: 15px; font-weight: 600;">Who can do what</h2>
+        <ul data-dc-tpl="76" style="margin: 0px; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; line-height: 1.5; color: rgb(61, 58, 52);">
+          <li data-dc-tpl="77"><strong data-dc-tpl="78">Assignee</strong>: marks it complete</li>
+          <li data-dc-tpl="79"><strong data-dc-tpl="80">Managers and admins</strong>: create, assign, reassign, edit deadlines, mark any task complete</li>
+          <li data-dc-tpl="81"><strong data-dc-tpl="82">Group members</strong>: can see it and comment</li>
+        </ul>
+        <a data-dc-tpl="83" href="Roles.html" style="font-size: 13px; font-weight: 500;">See all permissions</a>
+      </section>
+    </aside>
+  </div></div></div></div>
+
+
+
+</body></html>

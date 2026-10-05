@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Runsheet — Roles and permissions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'IBM Plex Sans',system-ui,sans-serif;background:#F4F2EE;color:#1C1B19}
+a{color:#2F4DB3}a:hover{color:#1F3585}
+button,input,select{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1280px; height: 900px; box-sizing: border-box; padding: 32px 40px; display: flex; flex-direction: column; gap: 24px; background: #F4F2EE; color: #1C1B19; font-family: 'IBM Plex Sans', system-ui, sans-serif">
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; min-height: 32px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+        Back to week view
+      </a>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.02em">Roles &amp; permissions</h1>
+      <p style="margin: 0; font-size: 15px; color: #57534B">Only admins can see this page. Three roles plus view-only shop TVs, and one rule for closing tasks: the assignee, or any manager or admin.</p>
+    </div>
+    <button type="button" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: #2F4DB3; color: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+      Invite person
+    </button>
+  </div>
+
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; gap: 24px">
+    <section style="padding: 8px 24px 16px; background: #FFFFFF; border: 1px solid #E0DBD2; border-radius: 16px">
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px">
+        <caption style="text-align: left; padding: 16px 0 8px; font-size: 16px; font-weight: 600">What each role can do</caption>
+        <thead>
+          <tr style="text-align: left; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #57534B">
+            <th scope="col" style="padding: 10px 0; font-weight: 600">Permission</th>
+            <th scope="col" style="padding: 10px 0; font-weight: 600; width: 96px">Admin</th>
+            <th scope="col" style="padding: 10px 0; font-weight: 600; width: 96px">Manager</th>
+            <th scope="col" style="padding: 10px 0; font-weight: 600; width: 96px">User</th>
+            <th scope="col" style="padding: 10px 0; font-weight: 600; width: 96px">Shop TV</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">See own assigned tasks</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">See their groups' tasks</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #8A4B0F">Its one group</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">See everyone's tasks</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">Create tasks</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #8A4B0F">For self only</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">Assign and reassign tasks</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">Mark a task complete</th><td style="color: #1F5A35; font-weight: 600">Any task</td><td style="color: #1F5A35; font-weight: 600">Any task</td><td style="color: #8A4B0F">If assignee</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">Edit or delete any task</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #8A4B0F">Their groups</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">Manage tags and groups</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">Connect and sync Google or Microsoft calendars</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">Assign calendar events to team members</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">See synced calendar events</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #3D3A34">Only events assigned to them</td><td style="color: #3D3A34">Only events assigned to it</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">Manage people and roles</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td></tr>
+          <tr style="border-top: 1px solid #ECE9E3"><th scope="row" style="padding: 11px 0; text-align: left; font-weight: 500">Airtable connection settings</th><td style="color: #1F5A35; font-weight: 600">Yes</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td><td style="color: #6B665C">No</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section style="padding: 8px 24px 16px; background: #FFFFFF; border: 1px solid #E0DBD2; border-radius: 16px; align-self: start">
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px">
+        <caption style="text-align: left; padding: 16px 0 8px; font-size: 16px; font-weight: 600">People</caption>
+        <thead>
+          <tr style="text-align: left; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #57534B">
+            <th scope="col" style="padding: 10px 0; font-weight: 600">Name</th>
+            <th scope="col" style="padding: 10px 0; font-weight: 600; width: 132px">Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top: 1px solid #ECE9E3">
+            <td style="padding: 10px 0"><div style="display: flex; align-items: center; gap: 10px"><span style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #2F4DB3">JM</span><div style="display: flex; flex-direction: column"><span style="font-weight: 600">Joseph Murphy</span><span style="font-size: 12px; color: #6B665C">Production, Operations</span></div></div></td>
+            <td><select aria-label="Role for Joseph Murphy" style="height: 40px; width: 120px; padding: 0 8px; border: 1px solid #CFCAC0; border-radius: 8px; background: #FFFFFF; font-size: 14px"><option>Admin</option><option>Manager</option><option>User</option></select></td>
+          </tr>
+          <tr style="border-top: 1px solid #ECE9E3">
+            <td style="padding: 10px 0"><div style="display: flex; align-items: center; gap: 10px"><span style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #8A4B0F">DR</span><div style="display: flex; flex-direction: column"><span style="font-weight: 600">Dana Reyes</span><span style="font-size: 12px; color: #6B665C">Production</span></div></div></td>
+            <td><select aria-label="Role for Dana Reyes" style="height: 40px; width: 120px; padding: 0 8px; border: 1px solid #CFCAC0; border-radius: 8px; background: #FFFFFF; font-size: 14px"><option>Manager</option><option>Admin</option><option>User</option></select></td>
+          </tr>
+          <tr style="border-top: 1px solid #ECE9E3">
+            <td style="padding: 10px 0"><div style="display: flex; align-items: center; gap: 10px"><span style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #5B3E96">PS</span><div style="display: flex; flex-direction: column"><span style="font-weight: 600">Priya Shah</span><span style="font-size: 12px; color: #6B665C">Production</span></div></div></td>
+            <td><select aria-label="Role for Priya Shah" style="height: 40px; width: 120px; padding: 0 8px; border: 1px solid #CFCAC0; border-radius: 8px; background: #FFFFFF; font-size: 14px"><option>User</option><option>Manager</option><option>Admin</option></select></td>
+          </tr>
+          <tr style="border-top: 1px solid #ECE9E3">
+            <td style="padding: 10px 0"><div style="display: flex; align-items: center; gap: 10px"><span style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #23603A">ML</span><div style="display: flex; flex-direction: column"><span style="font-weight: 600">Marcus Lee</span><span style="font-size: 12px; color: #6B665C">Creative</span></div></div></td>
+            <td><select aria-label="Role for Marcus Lee" style="height: 40px; width: 120px; padding: 0 8px; border: 1px solid #CFCAC0; border-radius: 8px; background: #FFFFFF; font-size: 14px"><option>User</option><option>Manager</option><option>Admin</option></select></td>
+          </tr>
+          <tr style="border-top: 1px solid #ECE9E3">
+            <td style="padding: 10px 0"><div style="display: flex; align-items: center; gap: 10px"><span style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #7A3B5E">LP</span><div style="display: flex; flex-direction: column"><span style="font-weight: 600">Lena Park</span><span style="font-size: 12px; color: #6B665C">Creative, Operations</span></div></div></td>
+            <td><select aria-label="Role for Lena Park" style="height: 40px; width: 120px; padding: 0 8px; border: 1px solid #CFCAC0; border-radius: 8px; background: #FFFFFF; font-size: 14px"><option>User</option><option>Manager</option><option>Admin</option></select></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
